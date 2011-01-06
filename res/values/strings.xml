@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Scribdroid</string>
+    
+    <!-- Connection Menu -->
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    
+    <!-- DeviceListActivity -->
+    <string name="title_new_devices">New Devices</string>
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="button_scan">Scan</string>
+    <string name="title_other_devices">Other Devices</string>
+    <string name="select_device">Select Device</string>
+    <string name="none_found">Nothing Found</string>
+    <string name="none_paired">Nothing Paired</string>
+    <string name="scanning">Scanning</string>
+    
+    <!-- MainTabWidget -->
+    <string name ="not_connected">You Are Not Currently Connected</string>
+    <string name ="success_disconnect">You Successfully Disconnected</string>
+</resources>
