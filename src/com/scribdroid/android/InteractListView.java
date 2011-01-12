@@ -6,16 +6,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+
+import com.scribdroid.scribbler.SetCommands.LED;
 
 public class InteractListView extends ListActivity {
 
+
+	private MyApp appState;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	  super.onCreate(savedInstanceState);
 
+	  appState = ((MyApp)getApplicationContext());
+	  
 	  setListAdapter(new ArrayAdapter<String>(this, R.layout.interact_list_item, COUNTRIES));
 
 	  ListView lv = getListView();
@@ -24,13 +29,11 @@ public class InteractListView extends ListActivity {
 	  lv.setOnItemClickListener(new OnItemClickListener() {
 	    public void onItemClick(AdapterView<?> parent, View view,
 	        int position, long id) {
-	      // When clicked, show a toast with the TextView text
-	      Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-	          Toast.LENGTH_SHORT).show();
+	    	appState.getScribbler().backward(1);
 	    }
 	  });
 	}
 	static final String[] COUNTRIES = new String[] {
-	    "Beep", "SetLED"
+	    "Test"
 	  };
 }

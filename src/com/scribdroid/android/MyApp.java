@@ -5,13 +5,13 @@ import android.app.Application;
 
 public class MyApp extends Application {
 
-	private Scribbler scrib = null;
+	private Scribbler scrib;
 	
 	public Scribbler getScribbler(){
-		return this.scrib;
+		return scrib;
 	}
 	
 	public void setScribbler(Scribbler aScrib){
-		this.scrib = aScrib;
+		scrib = aScrib;
 	}
 }

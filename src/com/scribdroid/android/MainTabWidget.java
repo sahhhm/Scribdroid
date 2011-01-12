@@ -38,17 +38,7 @@ public class MainTabWidget extends TabActivity {
 	    Intent intent;  // Reusable Intent for each tab
 
 	    appState = ((MyApp)getApplicationContext());
-	    
-	    // Create an Intent to launch an Activity for the tab (to be reused)
-	    intent = new Intent().setClass(this, InteractListView.class);
-
-	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("interact").setIndicator("Interact",
-	                      res.getDrawable(R.drawable.ic_tab_interact))
-	                  .setContent(intent);
-	    tabHost.addTab(spec);
-
-	    // Do the same for the other tabs
+	   
 	    intent = new Intent().setClass(this, ControllerActivity.class);
 	    spec = tabHost.newTabSpec("controller").setIndicator("Controller",
                 res.getDrawable(R.drawable.ic_tab_controller))
@@ -89,7 +79,7 @@ public class MainTabWidget extends TabActivity {
 		    	       })
 		    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
 		    	           public void onClick(DialogInterface dialog, int id) {
-		    	                dialog.cancel();
+		    	                dialog.cancel();	
 		    	           }
 		    	       });
 		    	AlertDialog alert = builder.create();
@@ -119,17 +109,21 @@ public class MainTabWidget extends TabActivity {
     	    	
     	    	//Connect New Scribbler
     	    	try {
-					newScribbler.connect();
-					
-	    	    	//Persist New Scribbler
-	    	        appState.setScribbler(newScribbler);
+					 if (newScribbler.connect()) {
+		    	    	//Persist New Scribbler
+		    	        appState.setScribbler(newScribbler);
+		    	        if (D) Log.d(TAG, "Scribbler Persisted");
+					 } else {
+			    	    Toast.makeText(getApplicationContext(), "Error Connecting to" + address,
+			    		 	          Toast.LENGTH_SHORT).show();
+			    	    
+			    	    //**throw exception?
+					 }
 				} catch (Exception e) {
 					Log.e(TAG, "Connection Failed");
-					
 				}
 
-    	    	Toast.makeText(getApplicationContext(), address,
-    		  	          Toast.LENGTH_SHORT).show();                
+              
             }
             break;
         }
