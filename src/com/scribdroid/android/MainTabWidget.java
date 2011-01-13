@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scribdroid.scribbler.Scribbler;
@@ -22,23 +24,33 @@ public class MainTabWidget extends TabActivity {
     private static final String TAG = "MainTabWidget";
     private static final boolean D = true;
     
-    // Intent request codes
-    private static final int REQUEST_CONNECT_DEVICE = 1;
-    
-	private MyApp appState;
 	private Resources res;
+    private MyApp appState;
+    private TextView connectivity;
 	
+    // Intent request codes
+    private static final int REQUEST_CONNECT_DEVICE = 1;   
+    
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
 	    setContentView(R.layout.main);
 
-	    res = getResources(); // Resource object to get Drawables
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+                R.layout.custom_title);
+        connectivity = (TextView) findViewById(R.id.connectivity);
+	    
 	    TabHost tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Resusable TabSpec for each tab
 	    Intent intent;  // Reusable Intent for each tab
-
+	    
+	    res = getResources(); // Resource object to get Drawables
 	    appState = ((MyApp)getApplicationContext());
-	   
+        connectivity.setText(res.getString(R.string.not_connected));
+
 	    intent = new Intent().setClass(this, ControllerActivity.class);
 	    spec = tabHost.newTabSpec("controller").setIndicator("Controller",
                 res.getDrawable(R.drawable.ic_tab_controller))
@@ -75,6 +87,8 @@ public class MainTabWidget extends TabActivity {
 		    	                s.disconnect();
 		    	    	    	Toast.makeText(getApplicationContext(), res.getString(R.string.success_disconnect),
 		    	    		  	          Toast.LENGTH_SHORT).show(); 
+		    	    	        connectivity.setText(res.getString(R.string.not_connected));
+
 		    	           }
 		    	       })
 		    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -85,7 +99,7 @@ public class MainTabWidget extends TabActivity {
 		    	AlertDialog alert = builder.create();
 		    	alert.show();
 	    	} else {
-    	    	Toast.makeText(getApplicationContext(), res.getString(R.string.not_connected),
+    	    	Toast.makeText(getApplicationContext(), res.getString(R.string.are_not_connected),
   		  	          Toast.LENGTH_SHORT).show();    
 	    	}
 	        return true;
@@ -112,20 +126,23 @@ public class MainTabWidget extends TabActivity {
 					 if (newScribbler.connect()) {
 		    	    	//Persist New Scribbler
 		    	        appState.setScribbler(newScribbler);
+		    	        connectivity.setText(res.getString(R.string.connected));
+
 		    	        if (D) Log.d(TAG, "Scribbler Persisted");
 					 } else {
-			    	    Toast.makeText(getApplicationContext(), "Error Connecting to" + address,
+			    	    Toast.makeText(getApplicationContext(), "Error Connecting to " + address,
 			    		 	          Toast.LENGTH_SHORT).show();
-			    	    
-			    	    //**throw exception?
-					 }
+			            connectivity.setText(res.getString(R.string.not_connected));
+
+			    	 }
 				} catch (Exception e) {
 					Log.e(TAG, "Connection Failed");
+			        connectivity.setText(res.getString(R.string.not_connected));
 				}
-
-              
             }
             break;
         }
     }
+	
+
 }

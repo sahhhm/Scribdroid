@@ -19,8 +19,10 @@ public class ControllerActivity extends Activity {
     private float translate, rotate;
     private float threshold;
     
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
 	    setContentView(R.layout.controller);
 
 	    translate = rotate = 0.0f;
@@ -74,8 +76,9 @@ public class ControllerActivity extends Activity {
 			rotate -= threshold;
 		}
 
-		if (D)
-			Log.d(TAG, "Moving... Trans = " + translate + " Rot = " + rotate);
+		if (D) 
+		    Log.d(TAG, "Moving... Trans = " + translate + " Rot = " + rotate);
+		
 		appState.getScribbler().move(values[0], values[1]);
 	}
     
