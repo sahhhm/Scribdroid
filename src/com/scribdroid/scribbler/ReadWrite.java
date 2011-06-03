@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class ReadWrite {
 	private static final String TAG = "ReadWrite";
-	private static final boolean D = false;
+	private static final boolean D = true;
 
 	private static final int PACKET_LENGTH = 9;
 
@@ -40,29 +40,69 @@ public class ReadWrite {
 		}
 	}
 
+	public static void _writeFluke(BluetoothSocket sock, boolean connected, byte[] values) {
+		if (connected) {
+			OutputStream out = null;
+			try {
+				out = sock.getOutputStream();
+			} catch (IOException e) {
+				Log.e(TAG, "Error getting output stream!");
+			}
+			
+			// Only write what the code-- no message size specified
+			ByteBuffer b = ByteBuffer.allocate(values.length).put(values);
+			
+			try {
+				out.write(b.array());
+				if (D)
+					Log.d(TAG, "Wrote[Fluke]: " + ba2s(b.array()));
+			} catch (IOException e) {
+				Log.e(TAG, "Error Writing: " + ba2s(b.array()));
+			} 
+		}
+	}	
+	
 	public static byte[] _read(BluetoothSocket sock, Boolean connected, int numBytes) {
 		ByteBuffer buf = ByteBuffer.allocate(numBytes);
 		if (connected) {
 			InputStream in = null;
-			try {
+			try 
+			{
 				in = sock.getInputStream();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+			} 
+			catch (IOException e1) 
+			{
 				Log.d(TAG, "Error Opening input stream");
 			}
+			
 			byte[] buffer = new byte[numBytes];
 			int read = 0;
 			try {
-				while (buf.hasRemaining()) {
+				while (buf.hasRemaining()) 
+				{
 					read = in.read(buffer);
-					for (int i = 0; i < read; i++) {
+					/*TO-DO: clean up repetitive for loop */
+					if (read - buf.remaining() < 0) {
+						for (int i = 0; i < read - buf.remaining(); i++) 
+						{
+							int b = buffer[i] & 0xff;
+							buf.put((byte) b);
+						}
+						Log.d(TAG, "in BREAK");
+						break;
+					}
+					
+					for (int i = 0; i < read; i++) 
+					{
 						int b = buffer[i] & 0xff;
 						buf.put((byte) b);
 					}
 				}
 				if (D) Log.d(TAG, "Read " + buf.position() + " bytes: "
 						+ ba2s(buf.array()));
-			} catch (IOException e) {
+			} 
+			catch (IOException e) 
+			{
 				Log.e(TAG, "Error Reading" + e.getMessage());
 			} 
 		}

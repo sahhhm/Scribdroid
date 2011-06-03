@@ -1,15 +1,6 @@
 package com.scribdroid.scribbler;
 
-import java.io.IOException;
-
-
-import android.util.Log;
-
-public class SetCommands {
-    // Debugging
-    private static final String TAG = "SetCommands";
-    private static final boolean D = true;
-    
+public class SetCommands {    
 	private Scribbler s;
 
 	private static final int PACKET_LENGTH = 9; 
@@ -32,7 +23,19 @@ public class SetCommands {
 	public SetCommands(Scribbler aScrib){
 		this.s = aScrib;
 	}
-	   
+
+	public void _set(byte[] values) {
+		byte[] ba = null;
+
+		ReadWrite._write(s.getSocket(), s.isConnected(), values);
+
+		ba = ReadWrite._read(s.getSocket(), s.isConnected(), PACKET_LENGTH);
+
+		ba = ReadWrite._read(s.getSocket(), s.isConnected(), SENSOR_PACKET_SIZE);
+    	s.setLastSensors(ba);
+
+	}	
+	
    public void _setSpeaker(int frequency, int duration){
     	byte[] values = {((byte)SET_SPEAKER),
     			(byte)(duration >> 8),
@@ -95,18 +98,6 @@ public class SetCommands {
 		}
     	this._set(ba);
     }
-    
-	public void _set(byte[] values) {
-		byte[] ba = null;
-
-		ReadWrite._write(s.getSocket(), s.isConnected(), values);
-
-		ba = ReadWrite._read(s.getSocket(), s.isConnected(), PACKET_LENGTH);
-
-		ba = ReadWrite._read(s.getSocket(), s.isConnected(), SENSOR_PACKET_SIZE);
-    	s.setLastSensors(ba);
-
-	}
 	
     public enum LED {
     	ALL, LEFT, CENTER, RIGHT

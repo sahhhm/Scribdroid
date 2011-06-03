@@ -21,4 +21,21 @@
     <string name ="not_connected">Not Connected</string>
     <string name ="are_not_connected">You Are Not Currently Connected</string>
     <string name ="success_disconnect">You Successfully Disconnected</string>
+    
+    <string-array name="information_array">
+        <item>All Information</item>
+        <item>IR Sensors</item>
+        <item>Brightness Sensors</item>
+        <item>Line Sensors</item>
+        <item>Stall Sensor</item>
+       	<item>Robot Information</item>
+    </string-array>
+    
+    <!-- Robot Info Activity/Layout -->
+    <string name="table_layout_battery">Battery</string>
+    <string name="table_layout_ir_left">IR Left</string>
+    <string name="table_layout_ir_right">IR Right</string>
+    <string name="table_layout_light_left">Light Left</string>
+    <string name="table_layout_light_center">Light Center</string>
+    <string name="table_layout_light_right">Light Right</string>
 </resources>

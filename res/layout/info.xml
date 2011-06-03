@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1">
+    <TableRow>
+        <TextView
+        	android:id="@+id/table_battery"
+            android:text="@string/table_layout_battery"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/battery"   
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+    <TableRow>
+        <TextView
+        	android:id="@+id/table_ir_left"
+            android:text="@string/table_layout_ir_left"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/ir_left"   
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+    <TableRow>
+        <TextView
+        	android:id="@+id/table_ir_right"
+            android:text="@string/table_layout_ir_right"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/ir_right"   
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>  
+    <TableRow>
+        <TextView
+        	android:id="@+id/table_light_left"
+            android:text="@string/table_layout_light_left"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/light_left"   
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>  
+    <TableRow>
+        <TextView
+        	android:id="@+id/table_light_center"
+            android:text="@string/table_layout_light_center"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/light_center"   
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>        
+    <TableRow>
+        <TextView
+        	android:id="@+id/table_light_right"
+            android:text="@string/table_layout_light_right"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/light_right"   
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>   
+</TableLayout>

@@ -20,15 +20,23 @@ public class Scribbler {
 	private boolean connected;
 	private byte[] lastSensors;
 	private SetCommands setCommands;
+	private GetCommands getCommands;
 	private BluetoothSocket sock;
 	private boolean isMoving;
 
+	
+	public Scribbler() {
+		this(null);
+	}
+	
 	public Scribbler(String aMac){
 		this.macAddress = aMac;
 		this.setConnected(false);
 		this.sock = null;
 		this.setCommands = null;
+		this.getCommands = null;
 	}
+
 	
 	public boolean connect() throws Exception {
 		boolean ret = false;
@@ -42,6 +50,7 @@ public class Scribbler {
 		try {
 			this.sock.connect();
 			this.setCommands = new SetCommands(this);
+			this.getCommands = new GetCommands(this);
 			this.setConnected(true);
 			ret = true;
 			if (D)
@@ -138,18 +147,35 @@ public class Scribbler {
     	if (setCommands != null) setCommands._move(-amount, 0);
     }
 
-	/**
-	 * @param isMoving the isMoving to set
-	 */
 	public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
 	}
 
-	/**
-	 * @return the isMoving
-	 */
 	public boolean isMoving() {
 		return isMoving;
 	}
+	
+	public byte[] takePicture(){
+		byte[] ba = null;
+ 		if (getCommands != null) 
+			ba =  getCommands.getArray();
+ 		return ba;
+	}
+	
+	public float getBattery() {
+		byte[] ba = null;
+		int unmodified;
+		float value = 0;
+		if (getCommands != null) {
+			ba = getCommands.getBattery();
+		
+			unmodified = ((ba[0] & 0xFF) << 8 | (ba[1] & 0xFF));
+			value = unmodified / 20.9813f;
+			
+			if (D) Log.d(TAG, "getBattery -> " + value);
+		}		
+		return value;
+	}
+	
     
 }
