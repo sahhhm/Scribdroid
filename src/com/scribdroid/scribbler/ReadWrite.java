@@ -64,6 +64,7 @@ public class ReadWrite {
 	
 	public static byte[] _read(BluetoothSocket sock, Boolean connected, int numBytes) {
 		ByteBuffer buf = ByteBuffer.allocate(numBytes);
+		
 		if (connected) {
 			InputStream in = null;
 			try 
@@ -75,13 +76,20 @@ public class ReadWrite {
 				Log.d(TAG, "Error Opening input stream");
 			}
 			
+			byte[] fake = new byte[numBytes];
+			for (int i = 0; i < numBytes; i++)
+				fake[i] = 0;
+
+			
 			byte[] buffer = new byte[numBytes];
 			int read = 0;
 			try {
 				while (buf.hasRemaining()) 
 				{
 					read = in.read(buffer);
+					
 					/*TO-DO: clean up repetitive for loop */
+					/*
 					if (read - buf.remaining() < 0) {
 						for (int i = 0; i < read - buf.remaining(); i++) 
 						{
@@ -90,7 +98,7 @@ public class ReadWrite {
 						}
 						Log.d(TAG, "in BREAK");
 						break;
-					}
+					} */
 					
 					for (int i = 0; i < read; i++) 
 					{

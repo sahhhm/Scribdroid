@@ -23,12 +23,11 @@
     <string name ="success_disconnect">You Successfully Disconnected</string>
     
     <string-array name="information_array">
-        <item>All Information</item>
-        <item>IR Sensors</item>
-        <item>Brightness Sensors</item>
-        <item>Line Sensors</item>
-        <item>Stall Sensor</item>
-       	<item>Robot Information</item>
+        <item>BATTERY</item>
+        <item>IR_ALL</item>
+        <item>IR_LEFT</item>
+        <item>IR_RIGHT</item>
+
     </string-array>
     
     <!-- Robot Info Activity/Layout -->

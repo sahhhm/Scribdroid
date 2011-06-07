@@ -161,7 +161,7 @@ public class Scribbler {
 			ba =  getCommands.getArray();
  		return ba;
 	}
-	
+
 	public float getBattery() {
 		byte[] ba = null;
 		int unmodified;
@@ -175,6 +175,26 @@ public class Scribbler {
 			if (D) Log.d(TAG, "getBattery -> " + value);
 		}		
 		return value;
+	}
+	
+	public byte[] getIR(String type) {
+		byte[] ba, ret = null;
+		
+		type = type.toLowerCase();
+		ba = getCommands.getIR();
+
+		if (getCommands != null) {
+			if (type.equals("left")) {
+				ret = new byte[1];
+				ret[0] = ba[0];
+			} else if (type.equals("right")) {
+				ret = new byte[1];
+				ret[0] = ba[1];
+			} else {
+				ret = ba;
+			}
+		}
+		return ret;
 	}
 	
     

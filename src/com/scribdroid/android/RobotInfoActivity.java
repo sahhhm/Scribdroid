@@ -36,8 +36,21 @@ public class RobotInfoActivity extends ListActivity {
 	    lv.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 	          // When clicked, show a toast with the TextView text
-	          Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-	              Toast.LENGTH_SHORT).show();
+	          CharSequence text = ((TextView) view).getText();
+	          if (D) Log.d(TAG, "text: " + text);
+	          if (text.equals("IR_LEFT")) {
+	        	  Toast.makeText(getApplicationContext(), "IR LEFT: " + appState.getScribbler().getIR("left")[0], Toast.LENGTH_SHORT).show();
+	          } else if (text.equals("IR_RIGHT")){
+	        	  Toast.makeText(getApplicationContext(), "IR RIGHT: " + appState.getScribbler().getIR("right")[0], Toast.LENGTH_SHORT).show();
+	          } else if (text.equals("IR_ALL")) {
+	        	  byte[] ir = appState.getScribbler().getIR("all");
+	        	  Toast.makeText(getApplicationContext(), "IR LEFT: " + ir[0] + "\n" + "IR RIGHT: " + ir[1], Toast.LENGTH_SHORT).show();
+	          } else if (text.equals("BATTERY")){ 
+	        	  Toast.makeText(getApplicationContext(), "BATTERY: " + appState.getScribbler().getBattery(), Toast.LENGTH_SHORT).show();
+	          } else {
+	        	  Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();	        	  
+	          }
+
 	        }
 	      });
 	}
