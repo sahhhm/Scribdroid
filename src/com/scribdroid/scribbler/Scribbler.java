@@ -116,11 +116,11 @@ public class Scribbler {
 	}
 
     public void beep(float frequency, float duration){
-    	if (setCommands != null) setCommands._setSpeaker((int)frequency, ((int)duration)*1000);
+    	if (setCommands != null) setCommands._setSpeaker((int)frequency, (int)(duration*1000));
     }
     
     public void beep(float frequency1, float frequency2, float duration){
-    	if (setCommands != null) setCommands._setSpeaker2((int)frequency1,(int)frequency2, ((int)duration)*1000);
+    	if (setCommands != null) setCommands._setSpeaker2((int)frequency1,(int)frequency2, (int)(duration*1000));
     }
     
     public void setLED(LED position, boolean on){

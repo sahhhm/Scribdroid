@@ -143,9 +143,20 @@ public class MainTabWidget extends TabActivity {
 		    	    	//Persist New Scribbler
 		    	        appState.setScribbler(newScribbler);
 		    	        connectivity.setText(res.getString(R.string.connected));
-
 		    	        
-		    	        if (D) Log.d(TAG, "Scribbler Persisted");
+			    	    Toast.makeText(getApplicationContext(), "Successful Connecting to " + address,
+		    		 	          Toast.LENGTH_SHORT).show();
+			    	    
+			    	    //Successful Connection beeps
+		    	        Scribbler s = appState.getScribbler();
+		    	        s.beep(784, .03f);
+		    	        s.beep(880, .03f);
+		    	        s.beep(698, .03f);
+		    	        s.beep(349, .03f);
+		    	        s.beep(523, .03f);
+		    	        
+		    	        Log.i(TAG, "Scribbler Persisted");
+
 					 } else {
 			    	    Toast.makeText(getApplicationContext(), "Error Connecting to " + address,
 			    		 	          Toast.LENGTH_SHORT).show();
@@ -160,6 +171,4 @@ public class MainTabWidget extends TabActivity {
             break;
         }
     }
-	
-
 }
