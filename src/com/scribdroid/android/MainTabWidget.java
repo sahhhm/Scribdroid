@@ -23,11 +23,11 @@ public class MainTabWidget extends TabActivity {
     // Debugging
     private static final String TAG = "MainTabWidget";
     private static final boolean D = true;
-    
+        
 	private Resources res;
     private MyApp appState;
     private TextView connectivity;
-	
+    
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;   
     
@@ -53,7 +53,8 @@ public class MainTabWidget extends TabActivity {
 	    Intent intent;
 	    
 	    res = getResources();
-	    
+
+
 	    //Set dummy scribbler. will be replaced once user connects
 	    appState = ((MyApp)getApplicationContext());
 	    appState.setScribbler(new Scribbler());
@@ -119,6 +120,10 @@ public class MainTabWidget extends TabActivity {
 	  		  	          Toast.LENGTH_SHORT).show();    
 		    	}
 		        return true;
+		    case R.id.preferences:
+	            Intent prefsIntent = new Intent(this, Preferences.class);
+	            startActivity(prefsIntent);
+		    	return true;
 		    default:
 		        return super.onOptionsItemSelected(item);
 	    }

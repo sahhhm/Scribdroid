@@ -18,6 +18,7 @@
 		<activity android:name="DeviceListActivity" android:label="DeviceListActivity"/>
 		<activity android:name="RobotInfoActivity" android:label="RobotInfoActivity"/>
 		<activity android:name="RobotInfoGroup" android:label="RobotInfoGroup"/>
+		<activity android:name="Preferences" android:label="Preferences"/>
 		
     </application>
     <uses-sdk android:minSdkVersion="7" />

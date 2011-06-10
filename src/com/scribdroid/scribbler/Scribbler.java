@@ -132,11 +132,11 @@ public class Scribbler {
     }
     
     public void turnLeft(double amount){
-    	if (setCommands != null) setCommands._move(0, amount);
+    	if (setCommands != null) setCommands._move(0, -amount);
     }
     
     public void turnRight(double amount){
-    	if (setCommands != null) setCommands._move(0, -amount);
+    	if (setCommands != null) setCommands._move(0, amount);
     }
     
     public void forward(double amount){

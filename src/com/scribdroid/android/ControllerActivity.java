@@ -1,52 +1,73 @@
 package com.scribdroid.android;
 
-
-
 import android.app.Activity;
-
 import android.content.Context;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.RectF;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.RelativeLayout;
-
 
 public class ControllerActivity extends Activity {
     // Debugging
     private static final String TAG = "ControllerActivity";
     private static final boolean D = true;
 	
-    private MyApp appState;
-    private int[] iconXY;
-    private float translate, rotate;
-    private float threshold;
-    
-    
-    private MyEnclosure enclosure;
-	private Resources res; 
-    
+    private MyApp appState; 
+	private SharedPreferences settings;
+	
+	// Must be instance variable to avoid garbage collection!
+	private OnSharedPreferenceChangeListener listener;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
 	    setContentView(R.layout.controller);
+	    final RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.controller_layout);
 
-	    translate = rotate = 0.0f;
-	    threshold = 0.10f;
-	    appState = ((MyApp)getApplicationContext());
-	    res = getResources();
+	    appState = ((MyApp)getApplicationContext());	    
+	    settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 	    
-	    RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.controller_layout);
-
-    	//enclosure = new MyEnclosure(this, mLayout.getWidth()/2, mLayout.getHeight()/2, mLayout.getWidth()/2);
-	    enclosure = new MyEnclosure(this);
-	    mLayout.addView(enclosure);  
-
+	    // Enclosures to swap between as user changes preferences
+	    final Enclosure s = new SimpleEnclosure(this);
+	    final Enclosure c = new ComplexEnclosure(this);
+	    
+	    // Set the initial controller mode
+	    if (settings.getString("controllerModePref", "Complex Controller").equals("Simple Controller")){
+	    	mLayout.addView(s);  
+	    }
+	    else {
+	    	mLayout.addView(c);  
+	    }
+	    
+	    // Listener that will change controller settings as user changes preferences
+		listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+			  public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+				  
+				if (key.equals("controllerModePref")){
+					  String mode = settings.getString("controllerModePref", "abcdComplex Controller");
+					  
+					  if (mode.equals("Simple Controller")) {
+						  mLayout.removeView(c);
+						  mLayout.addView(s);
+						  Log.i(TAG, "Changed to Simple Controller");
+					  } else if (mode.equals("Complex Controller")) {
+						  mLayout.removeView(s);
+						  mLayout.addView(c);
+						  Log.i(TAG, "Changed to Complex Controller");
+					  }	  
+                }
+			  }
+			};
+	    settings.registerOnSharedPreferenceChangeListener(listener);
     }
   
     @Override
@@ -63,162 +84,210 @@ public class ControllerActivity extends Activity {
     protected void onStop() {
       super.onStop();
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent me) {
-	    RelativeLayout rl = (RelativeLayout) findViewById(R.id.controller_layout);
-	    
-	    iconXY = new int[] {(rl.getWidth()) / 2 , (rl.getHeight()) / 2 }; 
-        float[] values = new float[] {0,0};
-        
-        int action = me.getAction();
-        float currentX = me.getX();
-        float currentY = me.getY();
-        
-        
-        //Make sure robot moves only if user touches in enclosure
-        if (enclosure.inEnclosure(currentX, currentY)) {
-        	
-	        if (appState.getScribbler().isConnected() && action == MotionEvent.ACTION_DOWN) {        	
-	        	if (D) Log.d(TAG, "ACTION_DOWN: X = " + currentX + "Y = " + currentY);
-	        	
-	        	enclosure.setTouchX(currentX);
-	        	enclosure.setTouchy(currentY);
-	        	enclosure.postInvalidate();
-	        	
-	            appState.getScribbler().setMoving(true);
-	            values = calculateDirection(currentX, currentY);
-	            move(values);
-	        	
-	        }
-        }
-        
-        if (appState.getScribbler().isConnected() && action == MotionEvent.ACTION_UP) {
-            if (D) Log.d(TAG, "ACTION_UP: X = " + currentX + " Y = " + currentY);
-            
-        	enclosure.setTouchX(rl.getWidth()/2);
-        	enclosure.setTouchy(rl.getHeight()/2);
-        	enclosure.postInvalidate();
-            
-            appState.getScribbler().setMoving(false);
-            values = new float[] {0, 0};
-            move(values);
-			
-        }
-        return true;
-      }
     
-	private void move(float[] values) {
-		translate = values[0];
-		if (translate < 0.0f) {
-			translate += threshold;
-		} else if (translate > 0.0f) {
-			translate -= threshold;
-		}
-
-		rotate = values[1];
-		if (rotate < 0.0f) {
-			rotate += threshold;
-		} else if (rotate > 0.0f) {
-			rotate -= threshold;
-		}
-		if (translate > 0) rotate *= -1;
-
-		if (D) 
-		    Log.d(TAG, "Moving... Trans = " + translate + " Rot = " + rotate);
-		
-		//appState.getScribbler().move(values[0], values[1]);
-		appState.getScribbler().move(translate, rotate);
-	}
-    
-    private float[] calculateDirection(float xPos, float yPos) {
-    	float trans = (iconXY[1] - yPos) / iconXY[1];
-    	float rot = (iconXY[0] - xPos) / iconXY[0];
+    private class ComplexEnclosure extends Enclosure {
+    	private float threshold;
     	
-    	if (Math.abs(trans) < threshold) {
-    		trans = 0.0f;
-    	}
-    	if (Math.abs(rot) < threshold){
-    		rot = 0.0f;
-    	}
-    	
-    	if(D) Log.d(TAG, "Calculated: translate= " + trans + " rotate = " + rot);
-
-    	return new float[] {trans, rot};
-    }
-   
-    
-    private class MyEnclosure extends View {
-		private float x; /* center x */
-    	private float y; /* center y */
-    	private float touchX; /* x-coordinate of where user touched */
-    	private float touchY; /* y-coordinate of where user touched */
-    	private float r;
-        private final Paint mPaint = new Paint();
-
-    	public MyEnclosure(Context context) {
-	        this(context, 0, 0, 0, 0, 0);
-	        mPaint.setColor(0xFFFF0000);
-    	}        
-        
-    	public MyEnclosure(Context context, float x, float y, float r, float touchX, float touchY) {
+    	public ComplexEnclosure(Context context) {
 			super(context);
-	        this.x = x;
-	        this.y = y;
-	        this.r = r;
-	        this.touchX = touchX;
-	        this.touchY = touchY;
+			threshold = 0.1f;
 		}
-    	
-    	private void setTouchX (float tx) {
-    		this.touchX = tx;
-    	}
-    	
-    	private void setTouchy (float ty) {
-    		this.touchY = ty;
-    	}
     	
     	 @Override
     	 protected void onDraw(Canvas canvas) {
     	     super.onDraw(canvas);
-             mPaint.setStyle(Style.STROKE);
-    	     canvas.drawCircle(x, y, r, mPaint);
+             
+    	     // Draw Enclosure
+    	     this.getPaint().setStyle(Style.STROKE);
+    	     canvas.drawCircle(this.getX(), this.getY(), this.getR(), this.getPaint());
     	    
-    	     if (touchX == 0 && touchY == 0) {
-    	    	 canvas.drawLine(0, 0, 0, 0, mPaint);
+    	     // Draw line from center to where user touches
+    	     if (this.getTouchX() == 0 && this.getTouchY() == 0) {
+    	    	 canvas.drawLine(0, 0, 0, 0, this.getPaint());
     	     } else {
-    	    	 canvas.drawLine(x, y, touchX, touchY, mPaint); 
+    	    	 canvas.drawLine(this.getX(), this.getY(), this.getTouchX(), this.getTouchY(), this.getPaint()); 
     	     }
     	     
-    	     mPaint.setStyle(Style.FILL_AND_STROKE);
-    	     canvas.drawCircle(x, y, 5, mPaint);
+    	     // Draw center point
+    	     this.getPaint().setStyle(Style.FILL_AND_STROKE);
+    	     canvas.drawCircle(this.getX(), this.getY(), 5, this.getPaint());
     	 }
     	 
     	 /**
-    	  * 
+    	  * Function that determines if a given users touch is in the enclosure
     	  * @param tx - the x-coordinate to test enclosure of
     	  * @param ty - the y-coordinate to test enclosure of
     	  * @return true if tx and ty are in the current enclosure
     	  */
-    	 private boolean inEnclosure(float tx, float ty) {
-    		 if ( Math.pow(tx - this.x, 2) + Math.pow(ty - this.y, 2) < Math.pow(this.r, 2) ) {
+    	 public boolean inEnclosure(float tx, float ty) {
+    		 if ( Math.pow(tx - this.getX(), 2) + Math.pow(ty - this.getY(), 2) < Math.pow(this.getR(), 2) ) {
     			 return true;
     		 }
     		 return false; 
     	 }
-    	 
-
-	    @Override
-	    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-	        super.onSizeChanged(w, h, oldw, oldh);
-	        
-	        this.invalidate();
-	        
-	        this.x = w/2;
-	        this.y = h/2;
-	        this.r = w/2;
-	    }
 	    
+	    @Override
+	    public boolean onTouchEvent(MotionEvent me) {
+	        float[] values = new float[] {0,0};
+	        
+	        int action = me.getAction();
+	        float currentX = me.getX();
+	        float currentY = me.getY();
+	        
+	        
+	        // Make sure robot moves only if user touches in enclosure
+	        if (this.inEnclosure(currentX, currentY)) {
+	        	
+		        if (appState.getScribbler().isConnected() && action == MotionEvent.ACTION_DOWN) {        	
+		        	if (D) Log.d(TAG, "ACTION_DOWN: X = " + currentX + "Y = " + currentY);
+		        	
+		        	this.setTouchX(currentX);
+		        	this.setTouchY(currentY);
+		        	this.invalidate();
+		        	
+		            values = this.calculateValues(currentX, currentY);
+		            if (D) Log.d(TAG, "Moving... Trans = " + values[0] + " Rot = " + values[1]);
+		            appState.getScribbler().move(values[0], values[1]);
+		        	
+		        }
+	        }
+	        
+	        // Stop the robot once user lifts finger
+	        if (appState.getScribbler().isConnected() && action == MotionEvent.ACTION_UP) {
+	            if (D) Log.d(TAG, "ACTION_UP: X = " + currentX + " Y = " + currentY);
+	            
+	        	this.setTouchX(this.getX());
+	        	this.setTouchY(this.getY());
+	            this.invalidate();
+	            
+	            appState.getScribbler().move(0, 0);
+				
+	        }
+	        return true;
+	      }
+
+	    /**
+	     * Given a users touch, determine how to move the robot
+	     * @param xPos - the x position of user's touch
+	     * @param yPos - the y position of user's touch
+	     * @return - float[] containing translate value and rotate value
+	     */
+		public float[] calculateValues(float xPos, float yPos) {
+			float trans = (this.getY() - yPos) / this.getY();
+	    	float rot = (this.getX() - xPos) / this.getX();
+	    	
+	    	// Calculate translate value
+	    	if (Math.abs(trans) < threshold) trans = 0.0f;
+			if (trans < 0.0f) {
+				trans += threshold;
+			} else if (trans > 0.0f) {
+				trans -= threshold;
+			}
+			
+			// Calculate rotate value
+	    	if (Math.abs(rot) < threshold)	rot = 0.0f;
+			if (rot < 0.0f) {
+				rot += threshold;
+			} else if (rot > 0.0f) {
+				rot -= threshold;
+			}
+			
+			// Fix to make the left and right turns correct
+			if (trans > 0) rot *= -1;
+	    		    	
+	    	return new float[] {trans, rot};
+		}
     }
     
+    private class SimpleEnclosure extends Enclosure {
+    	// RectF's that will contain the respective arrows
+        private RectF topR;
+        private RectF bottomR;
+        private RectF leftR;
+        private RectF rightR;
+        
+        
+    	public SimpleEnclosure(Context context) {
+			super(context);
+		}
+    	
+    	 @Override
+    	 protected void onDraw(Canvas canvas) {
+    	    super.onDraw(canvas);
+            this.getPaint().setStyle(Style.FILL_AND_STROKE);
+     
+            // define containing rectf's
+			topR = new RectF(getX() - 50,
+                    getY() - getR(),
+                    getX() + 50,
+                    getY());
+			bottomR = new RectF(getX() - 50,
+                    getY(),
+                    getX() + 50,
+                    getY() + getR());
+			leftR = new RectF(getX() - getR(),
+					getY() - 50,
+					getX(),
+					getY() + 50);
+			rightR = new RectF(getX(),
+					getY() - 50,
+					getX() + getR(),
+					getY() + 50);
+			
+			// Get Bitmap Sources
+            Bitmap topArrowBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.top_arrow);
+
+            Bitmap bottomArrowBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.bottom_arrow);
+            
+            Bitmap leftArrowBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.left_arrow);
+
+            Bitmap rightArrowBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.right_arrow);
+            
+            // Draw arrows in appropriate RectF
+            canvas.drawBitmap(topArrowBitmap, null, topR, getPaint());
+            canvas.drawBitmap(bottomArrowBitmap, null, bottomR, getPaint());
+            canvas.drawBitmap(leftArrowBitmap, null, leftR, getPaint());
+            canvas.drawBitmap(rightArrowBitmap, null, rightR, getPaint());
+            
+            // Draw containing circle
+            this.getPaint().setStyle(Style.STROKE);
+    	    canvas.drawCircle(this.getX(), this.getY(), this.getR(), this.getPaint());
+   	 		
+    	 }
+    	 
+	    @Override
+	    public boolean onTouchEvent(MotionEvent me) {
+	        int action = me.getAction();
+	        float currentX = me.getX();
+	        float currentY = me.getY();
+	               
+	        // Movement controls
+	        if (appState.getScribbler().isConnected() && action == MotionEvent.ACTION_DOWN) {
+		        if (topR.contains(currentX, currentY)) {
+		        	if (D) Log.d(TAG, "Moving Forward...");
+		        	appState.getScribbler().forward(.5);
+		        } else if (bottomR.contains(currentX, currentY)){
+		        	if (D) Log.d(TAG, "Moving Backward...");
+		        	appState.getScribbler().backward(.5);
+		        } else if (leftR.contains(currentX, currentY)) {
+		        	if (D) Log.d(TAG, "Turning Left...");
+		        	appState.getScribbler().turnLeft(.5);
+		        } else if (rightR.contains(currentX, currentY)) {
+		        	if (D) Log.d(TAG, "Turning Right...");
+		        	appState.getScribbler().turnRight(.5);
+		        } 
+	        }
+	        
+	        // Stop the robot when user moves finger up
+	        if (appState.getScribbler().isConnected() && action == MotionEvent.ACTION_UP) {
+	        	if (D) Log.d(TAG, "Stopping Robot");
+	            appState.getScribbler().move(0, 0);	
+	        }
+	        return true;
+	    }
+    }    
 }

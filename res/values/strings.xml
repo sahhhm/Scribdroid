@@ -2,9 +2,21 @@
 <resources>
     <string name="app_name">Scribdroid</string>
     
+    <!-- Application Wide -->
+    <string name="prefs">prefs</string>
+    
     <!-- Connection Menu -->
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
+    
+    
+    <string name="controllerMode">Controller Mode</string>
+    <string name="simple">Simple Controller</string>
+    <string name="complex">Complex Controller</string>
+    <string-array name="controllerType">
+	    <item>Simple Controller</item>
+	    <item>Complex Controller</item>
+	</string-array>
     
     <!-- DeviceListActivity -->
     <string name="title_new_devices">New Devices</string>

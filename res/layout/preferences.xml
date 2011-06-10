@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <PreferenceCategory
+                android:title="Robot Controller">
+                <ListPreference
+                        android:title="Robot Controller Mode"
+                        android:summary="Choose between a simple and complex robot controller."
+                        android:key="controllerModePref"
+                        android:defaultValue="Simple Controller"
+                        android:entries="@array/controllerType"
+                        android:entryValues="@array/controllerType" />
+        </PreferenceCategory>
+</PreferenceScreen>
