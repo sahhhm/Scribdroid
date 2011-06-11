@@ -12,6 +12,8 @@ public class GetCommands {
 	private static final int PACKET_LENGTH = 9;
 	
 	private static final int GET_IR_ALL = 73;
+    private static final int GET_NAME1 = 78;
+    private static final int GET_NAME2 = 64;
     private static final int GET_IMAGE = 83;
     private static final int GET_BATTERY = 89;
 	
@@ -32,6 +34,25 @@ public class GetCommands {
 		if (D) Log.d(TAG,"Finished Reading--getArray");
 		
 		return line;
+	}
+	
+	/**
+	 * 
+	 * @return - byte[] consisting of the 16 bytes that make up the robot name
+	 */
+	public byte[] getName() {
+		byte[] ba, ba1, ba2;
+		int retSize = 8;
+
+		// Get both halves of the name
+		ba1 = _get(new byte[] { (byte) GET_NAME1 }, retSize, "byte");
+		ba2 = _get(new byte[] { (byte) GET_NAME2 }, retSize, "byte");
+
+		// Combine both halves of the name
+		ba = new byte[ba1.length + ba2.length];
+		System.arraycopy(ba1, 0, ba, 0, ba1.length);
+		System.arraycopy(ba2, 0, ba, ba1.length, ba2.length);
+		return ba;
 	}
 	
 	public byte[] getBattery() {

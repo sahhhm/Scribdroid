@@ -36,6 +36,7 @@
     
     <string-array name="information_array">
         <item>BATTERY</item>
+        <item>ROBOT_NAME</item>
         <item>IR_ALL</item>
         <item>IR_LEFT</item>
         <item>IR_RIGHT</item>

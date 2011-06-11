@@ -181,9 +181,9 @@ public class Scribbler {
 		byte[] ba, ret = null;
 		
 		type = type.toLowerCase();
-		ba = getCommands.getIR();
-
 		if (getCommands != null) {
+			ba = getCommands.getIR();
+
 			if (type.equals("left")) {
 				ret = new byte[1];
 				ret[0] = ba[0];
@@ -197,5 +197,26 @@ public class Scribbler {
 		return ret;
 	}
 	
+	/**
+	 * Function properly gets and converts the robots name
+	 * @return - String representing the robots trimmed name
+	 */
+	public String getName() {
+		byte[] ba;
+		StringBuilder build;
+		String name = null; 
+		
+		if (getCommands != null) {
+			// Get the proper bytes and convert them to characters
+			ba = getCommands.getName();
+			build = new StringBuilder(ba.length);
+			
+			for (int i = 0; i < ba.length; i++)
+				build.append((char) ba[i]);
+			name = build.toString().trim();
+		}
+		if (D) Log.d(TAG, "Scribbler Name Read: " + name);
+		return name;
+	}
     
 }
