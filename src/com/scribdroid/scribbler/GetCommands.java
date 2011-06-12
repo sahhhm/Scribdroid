@@ -11,6 +11,7 @@ public class GetCommands {
 	
 	private static final int PACKET_LENGTH = 9;
 	
+	private static final int GET_LIGHT_ALL = 70;
 	private static final int GET_IR_ALL = 73;
     private static final int GET_NAME1 = 78;
     private static final int GET_NAME2 = 64;
@@ -40,8 +41,8 @@ public class GetCommands {
 	 * 
 	 * @return - byte[] consisting of the 16 bytes that make up the robot name
 	 */
-	public byte[] getName() {
-		byte[] ba, ba1, ba2;
+	public int[] getName() {
+		int[] ba, ba1, ba2;
 		int retSize = 8;
 
 		// Get both halves of the name
@@ -49,7 +50,7 @@ public class GetCommands {
 		ba2 = _get(new byte[] { (byte) GET_NAME2 }, retSize, "byte");
 
 		// Combine both halves of the name
-		ba = new byte[ba1.length + ba2.length];
+		ba = new int[ba1.length + ba2.length];
 		System.arraycopy(ba1, 0, ba, 0, ba1.length);
 		System.arraycopy(ba2, 0, ba, ba1.length, ba2.length);
 		return ba;
@@ -67,50 +68,85 @@ public class GetCommands {
 		
 	}
 	
-	public byte[] getIR() {
-		byte[] ba = null; 
-		ba = this._get(new byte[] { (byte) GET_IR_ALL }, 2, "byte");
+	public int[] getIR() {
+		int[] ba = null; 
+		int numBytes = 2;
+		
+		ba = this._get(new byte[] { (byte) GET_IR_ALL }, numBytes, "byte");
 		
 		if (D) Log.i(TAG, "IR Done");
 		return ba;
 	}
 	
-	private byte[] _get(byte[] ba, int numBytes, String getType) {
-		byte[] ret;
+	public int[] getLight() {
+		int[] ba = null;
+		int numBytes = 6;
+		
+		ba = this._get(new byte[] { (byte) GET_LIGHT_ALL }, numBytes, "word");
+		
+		if (D) Log.i(TAG, "LIGHT Done");
+		return ba;
+	}
+	
+	/**
+	 * Function that gets contents of a request to the robot
+	 * @param ba Byte array containing the message to be sent to the robot
+	 * @param numBytes the number of bytes in the robots message
+	 * @param getType the way the read bytes need to be formatted (byte or word)
+	 * @return an int[] containing the requested message from the robot
+	 */
+	private int[] _get(byte[] ba, int numBytes, String getType) {
+		int[] ret;
 		byte[] temp;
 		
+		// Write Message
 		ReadWrite._write(s.getSocket(), s.isConnected(), ba);
 		
-		//Read Echo
+		// Read the Message Echo
 		temp = ReadWrite._read(s.getSocket(), s.isConnected(), PACKET_LENGTH);
-
 		Log.d(TAG, "ECHO READ: "+ temp.length + " -> " + ba2s(temp));
 
-		
-		ret = ReadWrite._read(s.getSocket(), s.isConnected(), numBytes);
+		// Read contents of what's desired
+		temp = ReadWrite._read(s.getSocket(), s.isConnected(), numBytes);
 
-		/*
+		// Convert the received bytes if needed
 		if (getType.toLowerCase().equals("byte")) {
-			ret = temp;
+			ret = new int[temp.length];
+			for (int i = 0; i < ret.length; i++) {
+				ret[i] = temp[i];
+			}
 		} else if (getType.toLowerCase().equals("word")) { 
-			ret = new byte[numBytes/2];
 			int c = 0;
+			ret = new int[numBytes/2];
+			
+			if (D) Log.d(TAG, "GET[before word modify]: " + ba2s(temp));
+			
 			for (int i = 0; i < numBytes; i=i+2) {
-				ret[c] = ((byte)( temp[i] << 8 | temp[i+1]));
+				ret[c] = (((temp[i] & 0xFF) << 8) | (temp[i+1] & 0xFF));
 				c++;
 			}
 		} else {
-			ret = temp;
+			Log.e(TAG, "Cannot _get type: " + getType);
+			ret = new int[] {};
 		}
-		*/
-		if (D) Log.d(TAG, "GET: " + ba2s(ret));
+		
+		if (D) Log.d(TAG, "GET: " + int2str(ret));
 		return ret;
 	}
 	
-    private static String ba2s(byte[] ba){
+   private static String ba2s(byte[] ba){
     	StringBuilder sb = new StringBuilder("[ ");
     	for (byte b : ba) {
     		sb.append(Integer.toHexString(b & 0xff)).append(" ");
+    	}
+    	sb.append("]");
+    	return sb.toString();
+    } 
+    
+    private static String int2str(int[] ba){
+    	StringBuilder sb = new StringBuilder("[ ");
+    	for (int b : ba) {
+    		sb.append(Integer.toHexString(b)).append(" ");
     	}
     	sb.append("]");
     	return sb.toString();

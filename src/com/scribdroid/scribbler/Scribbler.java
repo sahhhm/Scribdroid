@@ -177,18 +177,18 @@ public class Scribbler {
 		return value;
 	}
 	
-	public byte[] getIR(String type) {
-		byte[] ba, ret = null;
+	public int[] getIR(String type) {
+		int[] ba, ret = null;
 		
 		type = type.toLowerCase();
 		if (getCommands != null) {
 			ba = getCommands.getIR();
 
 			if (type.equals("left")) {
-				ret = new byte[1];
+				ret = new int[1];
 				ret[0] = ba[0];
 			} else if (type.equals("right")) {
-				ret = new byte[1];
+				ret = new int[1];
 				ret[0] = ba[1];
 			} else {
 				ret = ba;
@@ -196,13 +196,37 @@ public class Scribbler {
 		}
 		return ret;
 	}
+
+	
+	public int[] getLight(String type) {
+		int[] ba, ret = null;
+		
+		type = type.toLowerCase();
+		if (getCommands != null) {
+			ba = getCommands.getLight();
+
+			if (type.equals("left")) {
+				ret = new int[1];
+				ret[0] = ba[0];
+			} else if (type.equals("center")) {
+				ret = new int[1];
+				ret[0] = ba[1];
+			} else if (type.equals("right")) {
+				ret = new int[1];
+				ret[0] = ba[2];
+			} else {
+				ret = ba;
+			}
+		}
+		return ret;
+	}	
 	
 	/**
 	 * Function properly gets and converts the robots name
 	 * @return - String representing the robots trimmed name
 	 */
 	public String getName() {
-		byte[] ba;
+		int[] ba;
 		StringBuilder build;
 		String name = null; 
 		

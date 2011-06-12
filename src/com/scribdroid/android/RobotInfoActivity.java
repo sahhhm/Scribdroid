@@ -44,13 +44,23 @@ public class RobotInfoActivity extends ListActivity {
 		          } else if (text.equals("IR_RIGHT")){
 		        	  Toast.makeText(getApplicationContext(), "IR RIGHT: " + appState.getScribbler().getIR("right")[0], Toast.LENGTH_SHORT).show();
 		          } else if (text.equals("IR_ALL")) {
-		        	  byte[] ir = appState.getScribbler().getIR("all");
+		        	  int[] ir = appState.getScribbler().getIR("all");
 		        	  Toast.makeText(getApplicationContext(), "IR LEFT: " + ir[0] + "\n" + "IR RIGHT: " + ir[1], Toast.LENGTH_SHORT).show();
 		          } else if (text.equals("BATTERY")){ 
 		        	  Toast.makeText(getApplicationContext(), "BATTERY: " + appState.getScribbler().getBattery(), Toast.LENGTH_SHORT).show();
 		          } else if (text.equals("ROBOT_NAME")) {
 		        	  Toast.makeText(getApplicationContext(), "Name: " + appState.getScribbler().getName(), Toast.LENGTH_SHORT).show();		        	  
-		          } else {
+		          } else if (text.equals("LIGHT_ALL")) { 
+		        	  int[] light = appState.getScribbler().getLight("all");
+		        	  Toast.makeText(getApplicationContext(), "LIGHT LEFT: " + light[0] + "\n" + "LIGHT CENTER: " + light[1] + "\n" + "LIGHT RIGHT: " + light[2], Toast.LENGTH_SHORT).show();		        	  
+		          } else if (text.equals("LIGHT_LEFT")) {
+		        	  Toast.makeText(getApplicationContext(), "LIGHT LEFT: " + appState.getScribbler().getLight("left")[0], Toast.LENGTH_SHORT).show();		        	  
+		          } else if (text.equals("LIGHT_CENTER")) {
+		        	  Toast.makeText(getApplicationContext(), "LIGHT CENTER: " + appState.getScribbler().getLight("center")[0], Toast.LENGTH_SHORT).show();		        	  
+		          } else if (text.equals("LIGHT_RIGHT")) {
+		        	  Toast.makeText(getApplicationContext(), "LIGHT RIGHT: " + appState.getScribbler().getLight("right")[0], Toast.LENGTH_SHORT).show();		        	  
+		          }
+		          else {
 		        	  Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();	        	  
 		          }
 	          }

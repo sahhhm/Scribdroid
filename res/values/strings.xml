@@ -40,6 +40,10 @@
         <item>IR_ALL</item>
         <item>IR_LEFT</item>
         <item>IR_RIGHT</item>
+        <item>LIGHT_ALL</item>
+		<item>LIGHT_LEFT</item>
+		<item>LIGHT_CENTER</item>
+		<item>LIGHT_RIGHT</item>
 
     </string-array>
     
