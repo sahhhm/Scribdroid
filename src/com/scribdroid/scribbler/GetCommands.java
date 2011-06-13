@@ -16,6 +16,9 @@ public class GetCommands {
     private static final int GET_NAME1 = 78;
     private static final int GET_NAME2 = 64;
     private static final int GET_IMAGE = 83;
+    private static final int GET_DONGLE_L_IR = 85;
+    private static final int GET_DONGLE_C_IR = 86;
+    private static final int GET_DONGLE_R_IR = 87; 
     private static final int GET_BATTERY = 89;
 	
 	public GetCommands(Scribbler aScrib){
@@ -66,6 +69,27 @@ public class GetCommands {
 		if (D) Log.i(TAG, "Battery Done");
 		return battval;
 		
+	}
+	
+	/**
+	 * Returns the left, center, right obstacle values of the robot. 
+	 * Note: this is a FLUKE command.
+	 * @return An integer array of size 3 containing left, center, right obstacle values
+	 */
+	public int[] getObstacle() {
+		int[] obstacleValues = new int[3];
+		int[] obstacleCodes = { GET_DONGLE_L_IR, GET_DONGLE_C_IR, GET_DONGLE_R_IR };
+		int retSize = 2;
+		byte[] temp;
+		
+		// Populate the left, center, right obstacle values
+		for (int i =0; i < obstacleCodes.length; i++) {
+			ReadWrite._writeFluke(s.getSocket(), s.isConnected(), new byte[] { (byte) obstacleCodes[i] });
+			temp = ReadWrite._read(s.getSocket(), s.isConnected(), retSize);
+			obstacleValues[i] = ((temp[0] << 8) & 0xFF | temp[1] & 0xFF);
+		}
+		
+		return obstacleValues;
 	}
 	
 	public int[] getIR() {

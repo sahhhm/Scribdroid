@@ -39,11 +39,7 @@ public class RobotInfoActivity extends ListActivity {
 	          if (D) Log.d(TAG, "Clicked On: " + text);
 	          
 	          if (appState.getScribbler().isConnected()) {
-		          if (text.equals("IR_LEFT")) {
-		        	  Toast.makeText(getApplicationContext(), "IR LEFT: " + appState.getScribbler().getIR("left")[0], Toast.LENGTH_SHORT).show();
-		          } else if (text.equals("IR_RIGHT")){
-		        	  Toast.makeText(getApplicationContext(), "IR RIGHT: " + appState.getScribbler().getIR("right")[0], Toast.LENGTH_SHORT).show();
-		          } else if (text.equals("IR_ALL")) {
+	        	  if (text.equals("IR_ALL")) {
 		        	  int[] ir = appState.getScribbler().getIR("all");
 		        	  Toast.makeText(getApplicationContext(), "IR LEFT: " + ir[0] + "\n" + "IR RIGHT: " + ir[1], Toast.LENGTH_SHORT).show();
 		          } else if (text.equals("BATTERY")){ 
@@ -53,12 +49,9 @@ public class RobotInfoActivity extends ListActivity {
 		          } else if (text.equals("LIGHT_ALL")) { 
 		        	  int[] light = appState.getScribbler().getLight("all");
 		        	  Toast.makeText(getApplicationContext(), "LIGHT LEFT: " + light[0] + "\n" + "LIGHT CENTER: " + light[1] + "\n" + "LIGHT RIGHT: " + light[2], Toast.LENGTH_SHORT).show();		        	  
-		          } else if (text.equals("LIGHT_LEFT")) {
-		        	  Toast.makeText(getApplicationContext(), "LIGHT LEFT: " + appState.getScribbler().getLight("left")[0], Toast.LENGTH_SHORT).show();		        	  
-		          } else if (text.equals("LIGHT_CENTER")) {
-		        	  Toast.makeText(getApplicationContext(), "LIGHT CENTER: " + appState.getScribbler().getLight("center")[0], Toast.LENGTH_SHORT).show();		        	  
-		          } else if (text.equals("LIGHT_RIGHT")) {
-		        	  Toast.makeText(getApplicationContext(), "LIGHT RIGHT: " + appState.getScribbler().getLight("right")[0], Toast.LENGTH_SHORT).show();		        	  
+		          } else if (text.equals("OBSTACLE_ALL")) { 
+		        	  int[] obs = appState.getScribbler().getObstacle("all");
+		        	  Toast.makeText(getApplicationContext(), "OBSTACLE LEFT: " + obs[0] + "\n" + "OBSTACLE CENTER: " + obs[1] + "\n" + "OBSTACLE RIGHT: " + obs[2], Toast.LENGTH_SHORT).show();		        	  
 		          }
 		          else {
 		        	  Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();	        	  

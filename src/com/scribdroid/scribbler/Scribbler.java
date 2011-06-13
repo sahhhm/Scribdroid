@@ -220,6 +220,29 @@ public class Scribbler {
 		}
 		return ret;
 	}	
+
+	public int[] getObstacle(String type) {
+		int[] ba, ret = null;
+		
+		type = type.toLowerCase();
+		if (getCommands != null) {
+			ba = getCommands.getObstacle();
+
+			if (type.equals("left")) {
+				ret = new int[1];
+				ret[0] = ba[0];
+			} else if (type.equals("center")) {
+				ret = new int[1];
+				ret[0] = ba[1];
+			} else if (type.equals("right")) {
+				ret = new int[1];
+				ret[0] = ba[2];
+			} else {
+				ret = ba;
+			}
+		}
+		return ret;
+	}
 	
 	/**
 	 * Function properly gets and converts the robots name
