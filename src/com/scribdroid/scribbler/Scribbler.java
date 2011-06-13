@@ -2,6 +2,7 @@ package com.scribdroid.scribbler;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 
 import com.scribdroid.scribbler.SetCommands.LED;
 
@@ -266,4 +267,24 @@ public class Scribbler {
 		return name;
 	}
     
+	/**
+	 * Function returns all of the scribbler sensors (not fluke) in a hashmap.
+	 * Each associated array for a key is of variable length, depending on the type of sensor.
+	 * IR array has size 2; LIGHT array has size 3; LINE array has size 2; STALL array
+	 * has size 1;
+	 * @return hashmap with keys: "IR", "LINE", "LIGHT", and "STALL"
+	 */
+	public HashMap<String, int[]> getAll() {
+		HashMap<String, int[]> hm = new HashMap<String, int[]>();
+		int[] v;
+		
+		if (getCommands != null) {
+			v = getCommands.getAll();
+			hm.put("IR", new int[] {v[0], v[1]});
+			hm.put("LIGHT", new int[] {v[2], v[3], v[4]});
+			hm.put("LINE", new int[] {v[5], v[6]});
+			hm.put("STALL", new int[] {v[7]});
+		}		
+		return hm;
+	}
 }

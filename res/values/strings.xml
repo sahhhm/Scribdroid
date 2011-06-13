@@ -34,15 +34,15 @@
     <string name ="are_not_connected">You Are Not Currently Connected</string>
     <string name ="success_disconnect">You Successfully Disconnected</string>
     
+    <!-- RobotInfoActivity -->
     <string-array name="information_array">
         <item>BATTERY</item>
         <item>ROBOT_NAME</item>
+        <item>ALL_SENSORS</item>
         <item>IR_ALL</item>
         <item>LIGHT_ALL</item>
         <item>OBSTACLE_ALL</item>
-
-
-    </string-array>
+    </string-array>    
     
     <!-- Robot Info Activity/Layout -->
     <string name="table_layout_battery">Battery</string>

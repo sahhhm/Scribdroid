@@ -1,5 +1,7 @@
 package com.scribdroid.android;
 
+import java.util.HashMap;
+
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,8 +54,14 @@ public class RobotInfoActivity extends ListActivity {
 		          } else if (text.equals("OBSTACLE_ALL")) { 
 		        	  int[] obs = appState.getScribbler().getObstacle("all");
 		        	  Toast.makeText(getApplicationContext(), "OBSTACLE LEFT: " + obs[0] + "\n" + "OBSTACLE CENTER: " + obs[1] + "\n" + "OBSTACLE RIGHT: " + obs[2], Toast.LENGTH_SHORT).show();		        	  
-		          }
-		          else {
+		          } else if (text.equals("ALL_SENSORS")){
+		        	  HashMap<String, int[]> h = appState.getScribbler().getAll();
+		        	  Toast.makeText(getApplicationContext(), "IR LEFT: " + h.get("IR")[0] + ", IR RIGHT: " + h.get("IR")[1] + "\n" + 
+		        			  "LIGHT LEFT: " + h.get("LIGHT")[0] + ", LIGHT CENTER: " + h.get("LIGHT")[1] + ", LIGHT RIGHT: " + h.get("LIGHT")[2] + "\n" +
+		        			  "LINE LEFT: " + h.get("LINE")[0] + ", LINE RIGHT: " + h.get("LINE")[1] + "\n" +
+		        			  "STALL: " + h.get("STALL")[0], Toast.LENGTH_SHORT).show();		        	  
+		        	  
+		          } else {
 		        	  Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();	        	  
 		          }
 	          }

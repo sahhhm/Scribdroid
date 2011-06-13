@@ -11,6 +11,7 @@ public class GetCommands {
 	
 	private static final int PACKET_LENGTH = 9;
 	
+	private static final int GET_ALL = 65;
 	private static final int GET_LIGHT_ALL = 70;
 	private static final int GET_IR_ALL = 73;
     private static final int GET_NAME1 = 78;
@@ -38,6 +39,42 @@ public class GetCommands {
 		if (D) Log.d(TAG,"Finished Reading--getArray");
 		
 		return line;
+	}
+	
+	
+	/**
+	 * Function which returns all the scribbler sensors (ir, light, line, stall)
+	 * @return an int[] of size 8.
+	 * 	idx[0,1]: ir left, ir right...
+	 *  idx[2,3,4]: light left, light center, light right...
+	 *  idx[5,6]: line left, line right...
+	 *  idx[7]: stall
+	 */
+	public int[] getAll() {
+		int[] temp;
+		int numBytes = 11;
+		int[] values = new int[8];
+		
+		// Get the Raw Bytes
+		temp = this._get(new byte[] { (byte) GET_ALL }, numBytes, "byte");
+
+		// IR Values
+		values[0] = temp[0];
+		values[1] = temp[1];
+		
+		// Light Values
+		values[2] = (temp[2] & 0xFF) << 8 | (temp[3] & 0xFF);
+		values[3] = (temp[4] & 0xFF) << 8 | (temp[5] & 0xFF);
+		values[4] = (temp[6] & 0xFF) << 8 | (temp[7] & 0xFF);
+		
+		// Line Values
+		values[5] = temp[8];
+		values[6] = temp[9];
+		
+		// Stall Value
+		values[7] = temp[10];
+		
+		return values;
 	}
 	
 	/**
