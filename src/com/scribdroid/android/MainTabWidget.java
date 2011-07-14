@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,9 @@ public class MainTabWidget extends TabActivity {
         
 	private Resources res;
     private MyApp appState;
-    private TextView connectivity;
+    public static TextView connectivity;
+    public static ProgressBar titleProgressBar;
+
     
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;   
@@ -42,6 +45,7 @@ public class MainTabWidget extends TabActivity {
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
                 R.layout.custom_title);
         connectivity = (TextView) findViewById(R.id.connectivity);
+        titleProgressBar = (ProgressBar) findViewById(R.id.title_progress_bar);
 	    
         //The activity TabHost
 	    TabHost tabHost = getTabHost();  
@@ -75,6 +79,7 @@ public class MainTabWidget extends TabActivity {
 	    tabHost.addTab(spec);
 	    
 	    tabHost.setCurrentTab(0);
+
 	}
 	
 	@Override
