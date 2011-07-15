@@ -24,7 +24,6 @@ public class Scribbler {
 	private GetCommands getCommands;
 	private BluetoothSocket sock;
 	private boolean isMoving;
-	private int refreshRate; // Number of milliseconds to wait before new request
 	
 	public Scribbler() {
 		this(null);
@@ -36,7 +35,6 @@ public class Scribbler {
 		this.sock = null;
 		this.setCommands = null;
 		this.getCommands = null;
-		this.refreshRate = 1000;
 	}
 
 	
@@ -155,14 +153,6 @@ public class Scribbler {
 
 	public boolean isMoving() {
 		return isMoving;
-	}
-	
-	public int getRefreshRate() {
-		return refreshRate;
-	}
-	
-	public void setRefreshRate(int r) {
-		this.refreshRate  = r;
 	}
 	
 	public byte[] takePicture(){

@@ -2,9 +2,12 @@ package com.scribdroid.android;
 
 import java.util.HashMap;
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +30,8 @@ public class RobotInfoActivity extends Activity {
 	private int[] obstacleValues, lightValues, irValues, lineValues;
     private String nameValue;
     
+    private SharedPreferences settings;
+    private Resources res;
     private Handler handler;
     
     private ToggleButton button;
@@ -37,7 +42,9 @@ public class RobotInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
 	    setContentView(R.layout.infotable);
 
-	    appState = ((MyApp)getApplicationContext());	    
+	    appState = ((MyApp)getApplicationContext());
+	    settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+	    res = getResources();
 	    handler = new Handler();
 	    
 	    // Initialize the textviews that will be updated when requested
@@ -73,7 +80,7 @@ public class RobotInfoActivity extends Activity {
             	}
             	// Keep polling until user decides to stop or leaves activity
             	if (button.isChecked()) {
-            		handler.postDelayed(this, appState.getScribbler().getRefreshRate());
+            		handler.postDelayed(this, Integer.parseInt(settings.getString(res.getString(R.string.refresh_rate_pref), res.getString(R.string.default_refresh_rate))));
             	}
             }
         };	        
@@ -83,18 +90,18 @@ public class RobotInfoActivity extends Activity {
             @Override
             public void onClick(View v) {
               if (button.isChecked())
-          		  handler.postDelayed(r, appState.getScribbler().getRefreshRate());
+          		  handler.postDelayed(r, Integer.parseInt(settings.getString(res.getString(R.string.refresh_rate_pref), res.getString(R.string.default_refresh_rate))));
             }
           });
 	        
-		handler.postDelayed(r, appState.getScribbler().getRefreshRate());
+		handler.postDelayed(r, Integer.parseInt(settings.getString(res.getString(R.string.refresh_rate_pref), res.getString(R.string.default_refresh_rate))));
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 		if (button.isChecked()) {
-			handler.postDelayed(r, appState.getScribbler().getRefreshRate());
+			handler.postDelayed(r, Integer.parseInt(settings.getString(res.getString(R.string.refresh_rate_pref), res.getString(R.string.default_refresh_rate))));
 		}
 	}
 	

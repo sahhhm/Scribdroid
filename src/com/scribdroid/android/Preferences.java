@@ -2,33 +2,41 @@ package com.scribdroid.android;
 
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.util.Log;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 public class Preferences extends PreferenceActivity {
 	
 	private boolean D = true;
 	private static final String TAG = "Preferences";
-    private MyApp appState; 
-	
+	private SharedPreferences settings;
+	private Editor edit;
+	private Resources res;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.layout.preferences);    
 
-	    appState = ((MyApp)getApplicationContext());	    
-        
+	    settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+	    edit = settings.edit();
+	    res = getResources();
+	    
         // Set Refresh Rate text value to current value when user opens 
 	    final EditTextPreference refreshPref = (EditTextPreference) findPreference("refreshPref");
-        refreshPref.setText(Integer.toString(appState.getScribbler().getRefreshRate()));
+        refreshPref.setText(settings.getString(res.getString(R.string.refresh_rate_pref), res.getString(R.string.default_refresh_rate)));
         refreshPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				appState.getScribbler().setRefreshRate(Integer.parseInt(refreshPref.getText()));
-				Log.i(TAG, "Set Refresh Rate to: " + refreshPref.getText());
+				edit.putString(res.getString(R.string.refresh_rate_pref), newValue.toString());
+				edit.commit();
+				Log.i(TAG, "Set Refresh Rate to: " + newValue.toString());
 				return true;
 			}
 		});
