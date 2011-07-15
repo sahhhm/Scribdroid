@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -22,6 +23,7 @@ public class ControllerActivity extends Activity {
 	
     private MyApp appState; 
 	private SharedPreferences settings;
+	private Resources res;
 	
 	// Must be instance variable to avoid garbage collection!
 	private OnSharedPreferenceChangeListener listener;
@@ -35,13 +37,14 @@ public class ControllerActivity extends Activity {
 
 	    appState = ((MyApp)getApplicationContext());	    
 	    settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+	    res = getResources();
 	    
 	    // Enclosures to swap between as user changes preferences
 	    final Enclosure s = new SimpleEnclosure(this);
 	    final Enclosure c = new ComplexEnclosure(this);
 	    
 	    // Set the initial controller mode
-	    if (settings.getString("controllerModePref", "Complex Controller").equals("Simple Controller")){
+	    if (settings.getString(res.getString(R.string.controller_mode_pref), res.getString(R.string.complex)).equals(res.getString(R.string.simple))){
 	    	mLayout.addView(s);  
 	    }
 	    else {
@@ -52,14 +55,14 @@ public class ControllerActivity extends Activity {
 		listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
 			  public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 				  
-				if (key.equals("controllerModePref")){
-					  String mode = settings.getString("controllerModePref", "abcdComplex Controller");
+				if (key.equals(res.getString(R.string.controller_mode_pref))){
+					  String mode = settings.getString(res.getString(R.string.controller_mode_pref), res.getString(R.string.complex));
 					  
-					  if (mode.equals("Simple Controller")) {
+					  if (mode.equals(res.getString(R.string.simple))) {
 						  mLayout.removeView(c);
 						  mLayout.addView(s);
 						  Log.i(TAG, "Changed to Simple Controller");
-					  } else if (mode.equals("Complex Controller")) {
+					  } else if (mode.equals(res.getString(R.string.complex))) {
 						  mLayout.removeView(s);
 						  mLayout.addView(c);
 						  Log.i(TAG, "Changed to Complex Controller");

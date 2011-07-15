@@ -59,6 +59,8 @@
     <string name="refresh_rate_title2">Refresh Rate (ms)</string>
     <string name="refresh_rate_sum">Enter the number of milliseconds to wait before getting robot information.</string>
     
+    <!-- SharedPreferences -->
     <string name="refresh_rate_pref">refreshRatePref</string>
     <string name="default_refresh_rate">1000</string>
+    <string name="controller_mode_pref">controllerModePref</string>
 </resources>
