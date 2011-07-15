@@ -187,32 +187,32 @@
 	            android:text="LINE VALUES"
 	            android:gravity="center"/>
 	    </TableRow>
+	    
+	    <TableRow>
+	        <TextView
+	        	android:id="@+id/line_left_label"
+	            android:layout_column="1"
+	            android:text="Left"
+	            android:gravity="center" />
+	        <TextView
+	        	android:id="@+id/line_right_label"
+	            android:layout_column="3"
+	            android:text="Right"
+	            android:gravity="center" />
+	    </TableRow>  	
 	
 	    <TableRow>
 	        <TextView
 	            android:id="@+id/line_left_value"
 	            android:layout_column="1"
-	            android:text="Left"
+	            android:text="xxxx"
 	            android:gravity="center" />
 	        <TextView
 	        	android:id="@+id/line_right_value"
 	            android:layout_column="3"
-	            android:text="Right"
-	            android:gravity="center" />
-	    </TableRow>
-	    
-	    <TableRow>
-	        <TextView
-	        	android:id="@+id/light_right_value"
-	            android:layout_column="1"
 	            android:text="xxxx"
 	            android:gravity="center" />
-	        <TextView
-	        	android:id="@+id/light_left_value"
-	            android:layout_column="3"
-	            android:text="xxxx"
-	            android:gravity="center" />
-	    </TableRow>       
+	    </TableRow>     
 	    
 	    <View
 	        android:layout_height="2dip"
@@ -225,9 +225,5 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
 	</TableLayout>
-	
-
-
-	
-	
-</RelativeLayout>   
+</RelativeLayout>  
+ 
