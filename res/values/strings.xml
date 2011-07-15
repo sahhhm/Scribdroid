@@ -51,4 +51,12 @@
     <string name="table_layout_light_left">Light Left</string>
     <string name="table_layout_light_center">Light Center</string>
     <string name="table_layout_light_right">Light Right</string>
+    
+    <!--  PreferencesActivity -->
+    <string name="pref_controller_title">Robot Controller Mode</string>
+    <string name="pref_controller_sum">Choose between a simple and complex robot controller.</string>
+    <string name="refresh_rate_title">Refresh Rate</string>
+    <string name="refresh_rate_title2">Refresh Rate (ms)</string>
+    <string name="refresh_rate_sum">Enter the number of milliseconds to wait before getting robot information.</string>
+    
 </resources>

@@ -3,11 +3,21 @@
         <PreferenceCategory
                 android:title="Robot Controller">
                 <ListPreference
-                        android:title="Robot Controller Mode"
-                        android:summary="Choose between a simple and complex robot controller."
                         android:key="controllerModePref"
+                        android:title="@string/pref_controller_title"
+                        android:summary="@string/pref_controller_sum"
                         android:defaultValue="Simple Controller"
                         android:entries="@array/controllerType"
                         android:entryValues="@array/controllerType" />
         </PreferenceCategory>
+        
+        <PreferenceCategory
+                android:title="Info Activity">
+                <EditTextPreference
+                	android:key="refreshPref"
+                	android:title="@string/refresh_rate_title"
+               		android:summary="@string/refresh_rate_sum"
+                	android:dialogTitle="@string/refresh_rate_title2"
+                	android:inputType="number" />
+        </PreferenceCategory>        
 </PreferenceScreen>
