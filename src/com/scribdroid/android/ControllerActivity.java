@@ -3,6 +3,7 @@ package com.scribdroid.android;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -45,24 +46,23 @@ public class ControllerActivity extends Activity {
 	    
 	    // Set the initial controller mode
 	    if (settings.getString(res.getString(R.string.controller_mode_pref), res.getString(R.string.complex)).equals(res.getString(R.string.simple))){
-	    	mLayout.addView(s);  
+	    	mLayout.addView(s);
 	    }
 	    else {
 	    	mLayout.addView(c);  
 	    }
 	    
 	    // Listener that will change controller settings as user changes preferences
-		listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-			  public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-				  
+		listener = new SharedPreferences.OnSharedPreferenceChangeListener() {			
+			public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+
 				if (key.equals(res.getString(R.string.controller_mode_pref))){
 					  String mode = settings.getString(res.getString(R.string.controller_mode_pref), res.getString(R.string.complex));
-					  
-					  if (mode.equals(res.getString(R.string.simple))) {
+					  if (!c.hasWindowFocus() && mode.equals(res.getString(R.string.simple))) {
 						  mLayout.removeView(c);
 						  mLayout.addView(s);
 						  Log.i(TAG, "Changed to Simple Controller");
-					  } else if (mode.equals(res.getString(R.string.complex))) {
+					  } else if (!s.hasWindowFocus() && mode.equals(res.getString(R.string.complex))) {
 						  mLayout.removeView(s);
 						  mLayout.addView(c);
 						  Log.i(TAG, "Changed to Complex Controller");
