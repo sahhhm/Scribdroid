@@ -144,6 +144,11 @@ public class ControllerActivity extends Activity {
 
         @Override
         public boolean onTouchEvent(MotionEvent me) {
+            if (!appState.getScribbler().isConnected()) {
+                MainTabWidget.emphasizeConnectivity();
+                return false;
+            }
+            
             float[] values = new float[] { 0, 0 };
 
             int action = me.getAction();
@@ -277,6 +282,11 @@ public class ControllerActivity extends Activity {
 
         @Override
         public boolean onTouchEvent(MotionEvent me) {
+            if (!appState.getScribbler().isConnected()) {
+                MainTabWidget.emphasizeConnectivity();
+                return false;
+            }
+            
             int action = me.getAction();
             float currentX = me.getX();
             float currentY = me.getY();

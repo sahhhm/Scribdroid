@@ -76,6 +76,7 @@ public class RobotInfoActivity extends Activity {
                             .setVisibility(View.INVISIBLE);
                 } else {
                     Log.e(TAG, "Disconnected unexpectedly...");
+                    MainTabWidget.emphasizeConnectivity();
                     button.setChecked(false);
                 }
                 // Keep polling until user decides to stop or leaves activity
@@ -98,7 +99,7 @@ public class RobotInfoActivity extends Activity {
                             r,
                             Integer.parseInt(settings.getString(
                                     res.getString(R.string.refresh_rate_pref),
-                                    res.getString(R.string.default_refresh_rate))));
+                                    res.getString(R.string.default_refresh_rate))));     
             }
         });
 
