@@ -44,7 +44,7 @@ public class MainTabWidget extends TabActivity {
 
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
                 R.layout.custom_title);
-        connectivity = (TextView) findViewById(R.id.connectivity);
+        connectivity = (TextView) findViewById(R.id.rightText);
         titleProgressBar = (ProgressBar) findViewById(R.id.title_progress_bar);
 	    
         //The activity TabHost
