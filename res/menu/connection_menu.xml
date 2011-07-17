@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<!--  Connect/Disconnect -->
-    <item android:id="@+id/connect"
-          android:title="@string/connect" />
-    <item android:id="@+id/disconnect"
-          android:title="@string/disconnect" />
-	<item android:id="@+id/preferences"
-          android:title="Preferences" />
-             
+	<!-- Connect/Disconnect -->
+	<item android:id="@+id/connect" android:title="@string/connect" />
+	<item android:id="@+id/disconnect" android:title="@string/disconnect" />
+	<item android:id="@+id/preferences" android:title="Preferences" />
+
 </menu>

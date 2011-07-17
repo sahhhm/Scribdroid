@@ -12,35 +12,42 @@ import android.content.res.Resources;
 import android.os.Bundle;
 
 public class Preferences extends PreferenceActivity {
-	
-	private boolean D = true;
-	private static final String TAG = "Preferences";
-	private SharedPreferences settings;
-	private Editor edit;
-	private Resources res;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+
+    private boolean D = true;
+    private static final String TAG = "Preferences";
+    private SharedPreferences settings;
+    private Editor edit;
+    private Resources res;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.layout.preferences);    
+        addPreferencesFromResource(R.layout.preferences);
 
-	    settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-	    edit = settings.edit();
-	    res = getResources();
-	    
-        // Set Refresh Rate text value to current value when user opens 
-	    final EditTextPreference refreshPref = (EditTextPreference) findPreference("refreshPref");
-        refreshPref.setText(settings.getString(res.getString(R.string.refresh_rate_pref), res.getString(R.string.default_refresh_rate)));
-        refreshPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				edit.putString(res.getString(R.string.refresh_rate_pref), newValue.toString());
-				edit.commit();
-				Log.i(TAG, "Set Refresh Rate to: " + newValue.toString());
-				return true;
-			}
-		});
-	}
-}	
+        settings = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        edit = settings.edit();
+        res = getResources();
 
+        // Set Refresh Rate text value to current value when user opens
+        final EditTextPreference refreshPref = (EditTextPreference) findPreference("refreshPref");
+        refreshPref.setText(settings.getString(
+                res.getString(R.string.refresh_rate_pref),
+                res.getString(R.string.default_refresh_rate)));
+        refreshPref
+                .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
+                    @Override
+                    public boolean onPreferenceChange(Preference preference,
+                            Object newValue) {
+                        edit.putString(
+                                res.getString(R.string.refresh_rate_pref),
+                                newValue.toString());
+                        edit.commit();
+                        Log.i(TAG,
+                                "Set Refresh Rate to: " + newValue.toString());
+                        return true;
+                    }
+                });
+    }
+}

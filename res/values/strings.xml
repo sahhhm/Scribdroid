@@ -1,66 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Scribdroid</string>
-    
-    <!-- Application Wide -->
-    <string name="prefs">prefs</string>
-    
-    <!-- Connection Menu -->
-    <string name="connect">Connect</string>
-    <string name="disconnect">Disconnect</string>
-    
-    
-    <string name="controllerMode">Controller Mode</string>
-    <string name="simple">Simple Controller</string>
-    <string name="complex">Complex Controller</string>
-    <string-array name="controllerType">
-	    <item>Simple Controller</item>
-	    <item>Complex Controller</item>
+	<string name="app_name">Scribdroid</string>
+
+	<!-- Application Wide -->
+	<string name="prefs">prefs</string>
+
+	<!-- Connection Menu -->
+	<string name="connect">Connect</string>
+	<string name="disconnect">Disconnect</string>
+
+
+	<string name="controllerMode">Controller Mode</string>
+	<string name="simple">Simple Controller</string>
+	<string name="complex">Complex Controller</string>
+	<string-array name="controllerType">
+		<item>Simple Controller</item>
+		<item>Complex Controller</item>
 	</string-array>
-    
-    <!-- DeviceListActivity -->
-    <string name="title_new_devices">New Devices</string>
-    <string name="title_paired_devices">Paired Devices</string>
-    <string name="button_scan">Scan</string>
-    <string name="title_other_devices">Other Devices</string>
-    <string name="select_device">Select Device</string>
-    <string name="none_found">Nothing Found</string>
-    <string name="none_paired">Nothing Paired</string>
-    <string name="scanning">Scanning</string>
-    
-    <!-- MainTabWidget -->
-    <string name ="connected">Connected</string>
-    <string name ="not_connected">Not Connected</string>
-    <string name ="are_not_connected">You Are Not Currently Connected</string>
-    <string name ="success_disconnect">You Successfully Disconnected</string>
-    
-    <!-- RobotInfoActivity -->
-    <string-array name="information_array">
-        <item>BATTERY</item>
-        <item>ROBOT_NAME</item>
-        <item>ALL_SENSORS</item>
-        <item>IR_ALL</item>
-        <item>LIGHT_ALL</item>
-        <item>OBSTACLE_ALL</item>
-    </string-array>    
-    
-    <!-- Robot Info Activity/Layout -->
-    <string name="table_layout_battery">Battery</string>
-    <string name="table_layout_ir_left">IR Left</string>
-    <string name="table_layout_ir_right">IR Right</string>
-    <string name="table_layout_light_left">Light Left</string>
-    <string name="table_layout_light_center">Light Center</string>
-    <string name="table_layout_light_right">Light Right</string>
-    
-    <!--  PreferencesActivity -->
-    <string name="pref_controller_title">Robot Controller Mode</string>
-    <string name="pref_controller_sum">Choose between a simple and complex robot controller.</string>
-    <string name="refresh_rate_title">Refresh Rate</string>
-    <string name="refresh_rate_title2">Refresh Rate (ms)</string>
-    <string name="refresh_rate_sum">Enter the number of milliseconds to wait before getting robot information.</string>
-    
-    <!-- SharedPreferences -->
-    <string name="refresh_rate_pref">refreshRatePref</string>
-    <string name="default_refresh_rate">1000</string>
-    <string name="controller_mode_pref">controllerModePref</string>
+
+	<!-- DeviceListActivity -->
+	<string name="title_new_devices">New Devices</string>
+	<string name="title_paired_devices">Paired Devices</string>
+	<string name="button_scan">Scan</string>
+	<string name="title_other_devices">Other Devices</string>
+	<string name="select_device">Select Device</string>
+	<string name="none_found">Nothing Found</string>
+	<string name="none_paired">Nothing Paired</string>
+	<string name="scanning">Scanning</string>
+
+	<!-- MainTabWidget -->
+	<string name="connected">Connected</string>
+	<string name="not_connected">Not Connected</string>
+	<string name="are_not_connected">You Are Not Currently Connected</string>
+	<string name="success_disconnect">You Successfully Disconnected</string>
+
+	<!-- RobotInfoActivity -->
+	<string-array name="information_array">
+		<item>BATTERY</item>
+		<item>ROBOT_NAME</item>
+		<item>ALL_SENSORS</item>
+		<item>IR_ALL</item>
+		<item>LIGHT_ALL</item>
+		<item>OBSTACLE_ALL</item>
+	</string-array>
+
+	<!-- Robot Info Activity/Layout -->
+	<string name="table_layout_battery">Battery</string>
+	<string name="table_layout_ir_left">IR Left</string>
+	<string name="table_layout_ir_right">IR Right</string>
+	<string name="table_layout_light_left">Light Left</string>
+	<string name="table_layout_light_center">Light Center</string>
+	<string name="table_layout_light_right">Light Right</string>
+
+	<!-- PreferencesActivity -->
+	<string name="pref_controller_title">Robot Controller Mode</string>
+	<string name="pref_controller_sum">Choose between a simple and complex robot
+		controller.</string>
+	<string name="refresh_rate_title">Refresh Rate</string>
+	<string name="refresh_rate_title2">Refresh Rate (ms)</string>
+	<string name="refresh_rate_sum">Enter the number of milliseconds to wait before
+		getting robot information.</string>
+
+	<!-- SharedPreferences -->
+	<string name="refresh_rate_pref">refreshRatePref</string>
+	<string name="default_refresh_rate">1000</string>
+	<string name="controller_mode_pref">controllerModePref</string>
 </resources>
