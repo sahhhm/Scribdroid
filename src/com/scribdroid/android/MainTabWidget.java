@@ -82,6 +82,15 @@ public class MainTabWidget extends TabActivity {
                         res.getDrawable(R.drawable.ic_tab_controller))
                 .setContent(intent);
         tabHost.addTab(spec);
+        
+        // Add Robot Info Activity Group to TabHost
+        intent = new Intent().setClass(this, PictureTestActivity.class);
+        spec = tabHost
+                .newTabSpec("Picture")
+                .setIndicator("Picture",
+                        res.getDrawable(R.drawable.ic_tab_controller))
+                .setContent(intent);
+        tabHost.addTab(spec);        
 
         tabHost.setCurrentTab(0);
 

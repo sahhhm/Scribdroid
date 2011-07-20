@@ -39,7 +39,7 @@ public class ControllerActivity extends Activity {
         settings = PreferenceManager
                 .getDefaultSharedPreferences(getBaseContext());
         res = getResources();
-
+        
         // Enclosures to swap between as user changes preferences
         final Enclosure s = new SimpleEnclosure(this);
         final Enclosure c = new ComplexEnclosure(this);

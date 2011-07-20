@@ -26,14 +26,14 @@ public class GetCommands {
         s = aScrib;
     }
 
-    public byte[] getArray() {
+    public byte[] getPictureArray() {
         byte[] line;
 
         int width = 256;
         int height = 192;
         int size = width * height;
 
-        ReadWrite._write(s.getSocket(), s.isConnected(),
+        ReadWrite._writeFluke(s.getSocket(), s.isConnected(),
                 new byte[] { (byte) GET_IMAGE });
 
         line = ReadWrite._read(s.getSocket(), s.isConnected(), size);

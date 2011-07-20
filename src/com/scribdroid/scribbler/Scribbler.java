@@ -158,7 +158,7 @@ public class Scribbler {
 
     public byte[] takePicture() {
         byte[] ba = null;
-        if (getCommands != null) ba = getCommands.getArray();
+        if (getCommands != null) ba = getCommands.getPictureArray();
         return ba;
     }
 
