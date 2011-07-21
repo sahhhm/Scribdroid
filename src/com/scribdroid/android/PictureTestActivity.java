@@ -44,8 +44,8 @@ public class PictureTestActivity extends Activity {
         b.setOnClickListener(new OnClickListener() {  
             public void onClick(View v) {  
                 Log.d(TAG, "clicked");
-                byte[] ba = appState.getScribbler().takePicture();
-                Log.d(TAG, "ba length: " + ba.length);
+                //byte[] ba = appState.getScribbler().takePicture();
+                //Log.d(TAG, "ba length: " + ba.length);
 
                 /*
                 YuvImage yuv = new YuvImage(ba, ImageFormat.NV21, 256, 192, null);
@@ -67,7 +67,7 @@ public class PictureTestActivity extends Activity {
                     Log.e(TAG, e.getMessage());
                 }
                 */
-
+                /*
                 Bitmap bm = Bitmap.createBitmap(256, 192, Bitmap.Config.ARGB_8888);
                 int w = 256;
                 int h = 192;
@@ -126,7 +126,7 @@ public class PictureTestActivity extends Activity {
                 
                 Log.d(TAG, "FINISHED making bitmap");
                 iv.setImageBitmap(bm);
-                
+                */
                 
 
             }  

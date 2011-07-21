@@ -2,4 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/controller_layout" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
+    
+
+    <!-- RelativeLayout which will contain the current controller -->
+    <RelativeLayout 
+        android:id="@+id/controller_area"
+    	android:layout_alignParentLeft="true" 
+    	android:layout_width="fill_parent"  
+    	android:layout_height="wrap_content"/>
+
+
+	<!-- RelativeLayout containing menu items like `take picture` -->
+    <RelativeLayout 
+        android:id="@+id/controller_bototm_area"
+    	android:layout_alignParentLeft="true" 
+    	android:layout_width="fill_parent"  
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/controller_area">
+
+	    <Button 
+	    	android:id="@+id/button_take_picture" 
+	    	android:text="take picture" 
+	    	android:layout_height="wrap_content" 
+			android:layout_width="wrap_content"    	
+	    	android:layout_alignParentBottom="true"
+	    	android:layout_centerInParent="true"/>
+    	
+   	</RelativeLayout>    	
+    
 </RelativeLayout>

@@ -20,6 +20,7 @@
 		<activity android:name="RobotInfoActivity" android:label="RobotInfoActivity"/>
 		<activity android:name="RobotInfoGroup" android:label="RobotInfoGroup"/>
 		<activity android:name="Preferences" android:label="Preferences"/>
+		<activity android:name="PictureActivity" android:label="PictureActivity"/>
 		<activity android:name="PictureTestActivity" android:label="PictureTestActivity"/>
 				
     </application>

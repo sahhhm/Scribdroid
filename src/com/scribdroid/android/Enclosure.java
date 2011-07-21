@@ -3,8 +3,8 @@ package com.scribdroid.android;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 abstract class Enclosure extends View {
     private float x; /* center x */
@@ -70,15 +70,27 @@ abstract class Enclosure extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
+        
         this.invalidate();
 
+        double controllerScale = .85;
+        double bottomScale = 1 - controllerScale;
+        
+        // Update the controller layout to match current screen size
+        ControllerActivity.controllerArea.setLayoutParams(new RelativeLayout.LayoutParams(w, (int)(h * controllerScale)));
+        RelativeLayout.LayoutParams lp  = new RelativeLayout.LayoutParams(w, (int)(h * bottomScale));
+        lp.addRule(RelativeLayout.BELOW, R.id.controller_area);
+        ControllerActivity.controllerBottomArea.setLayoutParams(lp);
+                
         x = w / 2;
-        y = h / 2;
-        r = w / 2;
+        y = ((int)(h * controllerScale)) / 2;
+        r = ((int)(h * controllerScale)) / 2;
     }
 
-    @Override
-    public abstract boolean onTouchEvent(MotionEvent me);
-
+    /**
+     * Function that returns an OnTouchListener representing the actions
+     * that should follow if a user touches the particular enclosure.
+     * @return OnTouchListener for the enclosure
+     */
+    public abstract OnTouchListener getOnTouchListener();
 }

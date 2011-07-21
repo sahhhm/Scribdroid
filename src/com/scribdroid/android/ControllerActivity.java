@@ -2,6 +2,7 @@ package com.scribdroid.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
@@ -14,6 +15,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 public class ControllerActivity extends Activity {
@@ -28,6 +32,12 @@ public class ControllerActivity extends Activity {
     // Must be instance variable to avoid garbage collection!
     private OnSharedPreferenceChangeListener listener;
 
+    private static final int PICTURE_REQUEST = 1;
+    private Button picButton;
+    
+    public static RelativeLayout controllerArea;
+    public static RelativeLayout controllerBottomArea;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +50,23 @@ public class ControllerActivity extends Activity {
                 .getDefaultSharedPreferences(getBaseContext());
         res = getResources();
         
+        // Define the layouts which fill the activity
+        controllerArea = (RelativeLayout) findViewById(R.id.controller_area);
+        controllerBottomArea = (RelativeLayout) findViewById(R.id.controller_bototm_area);
+        
         // Enclosures to swap between as user changes preferences
-        final Enclosure s = new SimpleEnclosure(this);
-        final Enclosure c = new ComplexEnclosure(this);
+        final Enclosure s = new SimpleEnclosure(controllerArea.getContext());
+        final Enclosure c = new ComplexEnclosure(controllerArea.getContext());
 
         // Set the initial controller mode
         if (settings.getString(res.getString(R.string.controller_mode_pref),
                 res.getString(R.string.complex)).equals(
                 res.getString(R.string.simple))) {
             mLayout.addView(s);
+            controllerArea.setOnTouchListener(s.getOnTouchListener());
         } else {
             mLayout.addView(c);
+            controllerArea.setOnTouchListener(c.getOnTouchListener());
         }
 
         // Listener that will change controller settings as user changes
@@ -68,17 +84,36 @@ public class ControllerActivity extends Activity {
                             && mode.equals(res.getString(R.string.simple))) {
                         mLayout.removeView(c);
                         mLayout.addView(s);
+                        controllerArea.setOnTouchListener(s.getOnTouchListener());
                         Log.i(TAG, "Changed to Simple Controller");
                     } else if (!s.hasWindowFocus()
                             && mode.equals(res.getString(R.string.complex))) {
                         mLayout.removeView(s);
                         mLayout.addView(c);
+                        controllerArea.setOnTouchListener(c.getOnTouchListener());
                         Log.i(TAG, "Changed to Complex Controller");
                     }
                 }
             }
         };
         settings.registerOnSharedPreferenceChangeListener(listener);
+    
+        // register a listener to start PictureActivity when user clicks
+        // takepicture button
+        final Intent pictureIntent = new Intent(this, PictureActivity.class);
+        picButton = (Button) findViewById(R.id.button_take_picture);
+        picButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "takePic button clicked");
+                
+                if (appState.getScribbler().isConnected()) {
+                    startActivityForResult(pictureIntent, PICTURE_REQUEST);
+                } else {
+                    Log.i(TAG, "Cannot Launch PictureActivity-- not connected to robot");
+                }
+            }
+        });
     }
 
     @Override
@@ -95,7 +130,7 @@ public class ControllerActivity extends Activity {
     protected void onStop() {
         super.onStop();
     }
-
+    
     private class ComplexEnclosure extends Enclosure {
         private float threshold;
 
@@ -141,59 +176,67 @@ public class ControllerActivity extends Activity {
             }
             return false;
         }
+ 
+        public OnTouchListener getOnTouchListener() {
+            OnTouchListener l = new OnTouchListener() {
+                
+                @Override
+                public boolean onTouch(View v, MotionEvent me) {
+                    if (!appState.getScribbler().isConnected()) {
+                        MainTabWidget.emphasizeConnectivity();
+                        return false;
+                    }
+                    
+                    float[] values = new float[] { 0, 0 };
 
-        @Override
-        public boolean onTouchEvent(MotionEvent me) {
-            if (!appState.getScribbler().isConnected()) {
-                MainTabWidget.emphasizeConnectivity();
-                return false;
-            }
-            
-            float[] values = new float[] { 0, 0 };
+                    int action = me.getAction();
+                    float currentX = me.getX();
+                    float currentY = me.getY();
 
-            int action = me.getAction();
-            float currentX = me.getX();
-            float currentY = me.getY();
+                    // Make sure robot moves only if user touches in enclosure
+                    if (inEnclosure(currentX, currentY)) {
 
-            // Make sure robot moves only if user touches in enclosure
-            if (inEnclosure(currentX, currentY)) {
+                        if (appState.getScribbler().isConnected()
+                                && action == MotionEvent.ACTION_DOWN) {
+                            if (D)
+                                Log.d(TAG, "ACTION_DOWN: X = " + currentX + "Y = "
+                                        + currentY);
 
-                if (appState.getScribbler().isConnected()
-                        && action == MotionEvent.ACTION_DOWN) {
-                    if (D)
-                        Log.d(TAG, "ACTION_DOWN: X = " + currentX + "Y = "
-                                + currentY);
+                            setTouchX(currentX);
+                            setTouchY(currentY);
+                            v.invalidate();
 
-                    setTouchX(currentX);
-                    setTouchY(currentY);
-                    this.invalidate();
+                            values = calculateValues(currentX, currentY);
+                            if (D)
+                                Log.d(TAG, "Moving... Trans = " + values[0]
+                                        + " Rot = " + values[1]);
+                            appState.getScribbler().move(values[0], values[1]);
 
-                    values = calculateValues(currentX, currentY);
-                    if (D)
-                        Log.d(TAG, "Moving... Trans = " + values[0]
-                                + " Rot = " + values[1]);
-                    appState.getScribbler().move(values[0], values[1]);
+                        }
+                    }
 
+                    // Stop the robot once user lifts finger
+                    if (appState.getScribbler().isConnected()
+                            && action == MotionEvent.ACTION_UP) {
+                        if (D)
+                            Log.d(TAG, "ACTION_UP: X = " + currentX + " Y = "
+                                    + currentY);
+
+                        setTouchX(getX());
+                        setTouchY(getY());
+                        v.invalidate();
+
+                        appState.getScribbler().move(0, 0);
+
+                    }
+                    return true;
                 }
-            }
-
-            // Stop the robot once user lifts finger
-            if (appState.getScribbler().isConnected()
-                    && action == MotionEvent.ACTION_UP) {
-                if (D)
-                    Log.d(TAG, "ACTION_UP: X = " + currentX + " Y = "
-                            + currentY);
-
-                setTouchX(getX());
-                setTouchY(getY());
-                this.invalidate();
-
-                appState.getScribbler().move(0, 0);
-
-            }
-            return true;
+            };
+            return l;
+            
+            
         }
-
+        
         /**
          * Given a users touch, determine how to move the robot
          * 
@@ -280,42 +323,62 @@ public class ControllerActivity extends Activity {
 
         }
 
-        @Override
-        public boolean onTouchEvent(MotionEvent me) {
-            if (!appState.getScribbler().isConnected()) {
-                MainTabWidget.emphasizeConnectivity();
-                return false;
-            }
-            
-            int action = me.getAction();
-            float currentX = me.getX();
-            float currentY = me.getY();
+        public OnTouchListener getOnTouchListener() {
+            OnTouchListener l = new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent me) {
+                    if (!appState.getScribbler().isConnected()) {
+                        MainTabWidget.emphasizeConnectivity();
+                        return false;
+                    }
+                    
+                    int action = me.getAction();
+                    float currentX = me.getX();
+                    float currentY = me.getY();
 
-            // Movement controls
-            if (appState.getScribbler().isConnected()
-                    && action == MotionEvent.ACTION_DOWN) {
-                if (topR.contains(currentX, currentY)) {
-                    if (D) Log.d(TAG, "Moving Forward...");
-                    appState.getScribbler().forward(.5);
-                } else if (bottomR.contains(currentX, currentY)) {
-                    if (D) Log.d(TAG, "Moving Backward...");
-                    appState.getScribbler().backward(.5);
-                } else if (leftR.contains(currentX, currentY)) {
-                    if (D) Log.d(TAG, "Turning Left...");
-                    appState.getScribbler().turnLeft(.5);
-                } else if (rightR.contains(currentX, currentY)) {
-                    if (D) Log.d(TAG, "Turning Right...");
-                    appState.getScribbler().turnRight(.5);
+                    // Movement controls
+                    if (appState.getScribbler().isConnected()
+                            && action == MotionEvent.ACTION_DOWN) {
+                        if (topR.contains(currentX, currentY)) {
+                            if (D) Log.d(TAG, "Moving Forward...");
+                            appState.getScribbler().forward(.5);
+                        } else if (bottomR.contains(currentX, currentY)) {
+                            if (D) Log.d(TAG, "Moving Backward...");
+                            appState.getScribbler().backward(.5);
+                        } else if (leftR.contains(currentX, currentY)) {
+                            if (D) Log.d(TAG, "Turning Left...");
+                            appState.getScribbler().turnLeft(.5);
+                        } else if (rightR.contains(currentX, currentY)) {
+                            if (D) Log.d(TAG, "Turning Right...");
+                            appState.getScribbler().turnRight(.5);
+                        }
+                    }
+
+                    // Stop the robot when user moves finger up
+                    if (appState.getScribbler().isConnected()
+                            && action == MotionEvent.ACTION_UP) {
+                        if (D) Log.d(TAG, "Stopping Robot");
+                        appState.getScribbler().move(0, 0);
+                    }
+                    return true;
                 }
-            }
-
-            // Stop the robot when user moves finger up
-            if (appState.getScribbler().isConnected()
-                    && action == MotionEvent.ACTION_UP) {
-                if (D) Log.d(TAG, "Stopping Robot");
-                appState.getScribbler().move(0, 0);
-            }
-            return true;
+            };
+            return l;
         }
     }
+    
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+        case PICTURE_REQUEST:
+            // When DeviceListActivity returns with a device to connect
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i(TAG, "PICTURE_REQUEST: ok");
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.i(TAG, "PICTURE_REQUEST: cancel");
+            }
+            break;
+        }
+    }    
 }
