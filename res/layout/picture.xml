@@ -3,6 +3,20 @@
 	android:id="@+id/controller_layout" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
     
+    <ProgressBar 
+    	android:id="@+id/progressBar_picture" 
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_centerInParent="true"/>
+    
+    <TextView 
+        android:id="@+id/textView_takingPicture" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="wrap_content"     	
+    	android:layout_below="@+id/progressBar_picture" 
+    	android:text="Taking Picture..." 
+    	android:layout_centerInParent="true"/>
+    
     <TextView 
     	android:layout_height="wrap_content" 
     	android:layout_alignParentLeft="true" 
@@ -15,7 +29,8 @@
     	android:src="@drawable/icon" 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
-    	android:layout_alignParentLeft="true"
-    	android:layout_below="@+id/textView1"/>
+    	android:layout_centerInParent="true"
+    	android:layout_below="@+id/textView1"
+    	android:visibility="invisible"/>
 
 </RelativeLayout>
