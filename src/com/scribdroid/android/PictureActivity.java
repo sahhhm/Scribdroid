@@ -51,7 +51,14 @@ public class PictureActivity extends Activity {
         textViewPName = (TextView) findViewById(R.id.textView_pictureName);
         editTextName = (EditText) findViewById(R.id.editText_pictureName);
         
-
+        // implement cancel onClick
+        buttonCancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(Activity.RESULT_CANCELED);
+                finish();
+            } 
+        });
     }
     
     public void onResume() {
