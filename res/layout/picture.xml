@@ -17,20 +17,60 @@
     	android:text="Taking Picture..." 
     	android:layout_centerInParent="true"/>
     
-    <TextView 
-    	android:layout_height="wrap_content" 
-    	android:layout_alignParentLeft="true" 
-    	android:id="@+id/textView1" 
-    	android:layout_width="wrap_content" 
-    	android:text="TextView"/>
-    
     <ImageView 
     	android:id="@+id/imageView_picture" 
     	android:src="@drawable/icon" 
-    	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content" 
     	android:layout_centerInParent="true"
-    	android:layout_below="@+id/textView1"
-    	android:visibility="invisible"/>
+    	android:layout_alignParentTop="true"
+    	android:layout_margin="10sp"
+    	android:visibility="invisible" android:layout_width="256px" android:layout_height="192px"/>
+    	
+    <LinearLayout 
+    	android:id="@+id/linearLayout_editPictureName"    
+    	android:layout_below="@+id/imageView_picture"  
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content"
+    	android:layout_margin="10sp"
+    	android:layout_centerInParent="true">
+        <TextView 
+        	android:text="Picture Name: " 
+        	android:id="@+id/textView_pictureName" 
+        	android:layout_width="wrap_content" 
+        	android:layout_height="wrap_content"
+        	android:layout_centerVertical="true"
+        	android:visibility="invisible"/>
+        <EditText 
+        	android:id="@+id/editText_pictureName"
+        	android:text="hi" 
+        	android:layout_width="150sp" 
+        	android:layout_height="wrap_content"
+        	android:layout_alignTop="@+id/textView_pictureName"
+        	android:singleLine="true"
+        	android:visibility="invisible"/>
+    </LinearLayout>
+
+    <LinearLayout 
+    	android:id="@+id/linearLayout_savePicture" 
+    	android:layout_below="@+id/linearLayout_editPictureName" 
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content"
+    	android:layout_margin="10sp"
+    	android:layout_centerInParent="true">
+    	
+        <Button 
+        	android:id="@+id/button_savePicture"
+        	android:text="Save Picture"  
+        	android:layout_width="wrap_content" 
+        	android:layout_height="wrap_content"
+        	android:visibility="invisible"/>
+        <Button 
+        	android:id="@+id/button_cancelPicture"
+        	android:text="Cancel"  
+        	android:layout_width="wrap_content" 
+        	android:layout_height="wrap_content"
+        	android:visibility="invisible"/>
+    	
+    </LinearLayout>
+
 
 </RelativeLayout>

@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,8 +19,19 @@ public class PictureActivity extends Activity {
     private final Boolean D = true;
     
     private ImageView iv;
+    
+    // taking picture resources
     private ProgressBar pb; 
     private TextView loadingMessage;
+    
+    // save/cancel resources
+    private Button buttonSave;
+    private Button buttonCancel;
+    
+    // Edit name resources
+    private TextView textViewPName;
+    private EditText editTextName;
+    
     
     private MyApp appState;
     
@@ -32,6 +46,12 @@ public class PictureActivity extends Activity {
         iv = (ImageView) findViewById(R.id.imageView_picture);
         pb = (ProgressBar) findViewById(R.id.progressBar_picture);
         loadingMessage = (TextView) findViewById(R.id.textView_takingPicture);
+        buttonSave = (Button) findViewById(R.id.button_savePicture);
+        buttonCancel = (Button) findViewById(R.id.button_cancelPicture);
+        textViewPName = (TextView) findViewById(R.id.textView_pictureName);
+        editTextName = (EditText) findViewById(R.id.editText_pictureName);
+        
+
     }
     
     public void onResume() {
@@ -65,10 +85,16 @@ public class PictureActivity extends Activity {
                 // Hide ProgressBar and associated text
                 pb.setVisibility(View.INVISIBLE);
                 loadingMessage.setVisibility(View.INVISIBLE);
+
+                // set the image in the imageview
+                iv.setImageBitmap(bm);
                 
                 // Show image and picture options
                 iv.setVisibility(View.VISIBLE);
-                iv.setImageBitmap(bm);
+                buttonSave.setVisibility(View.VISIBLE);
+                buttonCancel.setVisibility(View.VISIBLE);
+                textViewPName.setVisibility(View.VISIBLE);
+                editTextName.setVisibility(View.VISIBLE);
 
             } else {
                 Log.e(TAG, "Error taking picture...");
