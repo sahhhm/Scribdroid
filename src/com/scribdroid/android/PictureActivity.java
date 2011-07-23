@@ -1,9 +1,14 @@
 package com.scribdroid.android;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PictureActivity extends Activity {
 
@@ -32,6 +38,7 @@ public class PictureActivity extends Activity {
     private TextView textViewPName;
     private EditText editTextName;
     
+    private Bitmap image;
     
     private MyApp appState;
     
@@ -51,6 +58,9 @@ public class PictureActivity extends Activity {
         textViewPName = (TextView) findViewById(R.id.textView_pictureName);
         editTextName = (EditText) findViewById(R.id.editText_pictureName);
         
+        // image is null until taken
+        image = null;
+        
         // implement cancel onClick
         buttonCancel.setOnClickListener(new OnClickListener() {
             @Override
@@ -58,6 +68,33 @@ public class PictureActivity extends Activity {
                 setResult(Activity.RESULT_CANCELED);
                 finish();
             } 
+        });
+        
+        // implement save onClick
+        buttonSave.setOnClickListener(new OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               if (image != null) {
+                   // save image to internal storage
+                   try {
+                       String path = editTextName.getText().toString() + ".jpg";
+                       FileOutputStream fos = openFileOutput(path, Context.MODE_PRIVATE);
+                       image.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+                       fos.close();
+                       
+                       // Let the user know picture saved successfully
+                       Toast.makeText(getBaseContext(), getResources().getString(R.string.successful_save), Toast.LENGTH_LONG).show();
+                       Log.i(TAG, "Saved Picture");
+                       
+                   } catch (Exception e) {
+                       Toast.makeText(getBaseContext(), getResources().getString(R.string.unsuccessful_save), Toast.LENGTH_LONG).show();
+                       Log.e(TAG, e.getMessage());
+                   }
+               } else {
+                   Toast.makeText(getBaseContext(), getResources().getString(R.string.unsuccessful_save), Toast.LENGTH_LONG).show();
+                   Log.e(TAG, "There does not seem to be an image to save");
+               }
+           }
         });
     }
     
@@ -95,6 +132,9 @@ public class PictureActivity extends Activity {
 
                 // set the image in the imageview
                 iv.setImageBitmap(bm);
+                
+                // assign the newly created bitmap so we can save
+                image = bm;
                 
                 // Show image and picture options
                 iv.setVisibility(View.VISIBLE);

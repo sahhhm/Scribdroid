@@ -52,6 +52,10 @@
 	<string name="table_layout_light_center">Light Center</string>
 	<string name="table_layout_light_right">Light Right</string>
 
+	<!-- PictureActivity -->
+	<string name="successful_save">The picture was successfully saved!</string>
+	<string name="unsuccessful_save">There was an error in saving the picture.</string>
+
 	<!-- PreferencesActivity -->
 	<string name="pref_controller_title">Robot Controller Mode</string>
 	<string name="pref_controller_sum">Choose between a simple and complex robot
