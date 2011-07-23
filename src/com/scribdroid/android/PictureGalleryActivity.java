@@ -22,14 +22,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-/**
- * Highly experimental class testing random things
- * related to pictures as needed
- */
-public class PictureTestActivity extends Activity {
+public class PictureGalleryActivity extends Activity {
 
     // Debugging
-    private static final String TAG = "PictureTestActivity";
+    private static final String TAG = "PictureGalleryActivity";
     private static final boolean D = true;
 
     private MyApp appState;
@@ -38,7 +34,7 @@ public class PictureTestActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.picturetest);
+        setContentView(R.layout.picturegallery);
         
         appState = (MyApp) getApplicationContext();
 

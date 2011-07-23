@@ -21,7 +21,7 @@
 		<activity android:name="RobotInfoGroup" android:label="RobotInfoGroup"/>
 		<activity android:name="Preferences" android:label="Preferences"/>
 		<activity android:name="PictureActivity" android:label="PictureActivity"/>
-		<activity android:name="PictureTestActivity" android:label="PictureTestActivity"/>
+		<activity android:name="PictureGalleryActivity" android:label="PictureTestActivity"/>
 				
     </application>
     <uses-sdk android:minSdkVersion="7" />
