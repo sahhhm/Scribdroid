@@ -72,14 +72,14 @@ public class MainTabWidget extends TabActivity {
     // Add Robot Info Activity Group to TabHost
     intent = new Intent().setClass(this, RobotInfoGroup.class);
     spec = tabHost.newTabSpec("info")
-        .setIndicator("Info", res.getDrawable(R.drawable.ic_tab_controller))
+        .setIndicator("Robot Info", res.getDrawable(R.drawable.ic_tab_info))
         .setContent(intent);
     tabHost.addTab(spec);
 
     // Add Robot Info Activity Group to TabHost
     intent = new Intent().setClass(this, PictureGalleryActivity.class);
     spec = tabHost.newTabSpec("Picture")
-        .setIndicator("Picture", res.getDrawable(R.drawable.ic_tab_controller))
+        .setIndicator("Photo Gallery", res.getDrawable(R.drawable.ic_tab_photo))
         .setContent(intent);
     tabHost.addTab(spec);
 
