@@ -22,7 +22,7 @@
 
 	    <Button 
 	    	android:id="@+id/button_take_picture" 
-	    	android:text="take picture" 
+	    	android:text="@+string/take_picture" 
 	    	android:layout_height="wrap_content" 
 			android:layout_width="wrap_content"    	
 	    	android:layout_alignParentBottom="true"

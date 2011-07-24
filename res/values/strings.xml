@@ -55,6 +55,7 @@
 	<!-- PictureActivity -->
 	<string name="successful_save">The picture was successfully saved!</string>
 	<string name="unsuccessful_save">There was an error in saving the picture.</string>
+	<string name="take_picture">Take a Picture!</string>
 
 	<!-- PictureGalleryActivity -->
 	<string name="successful_deleting">Successfully Deleted Picture From Internal Memory!</string>
@@ -62,6 +63,8 @@
 	<string name="no_pictures">You currently have not taken any pictures!</string>
 	<string name="error_external_save">There was an error saving the image to external storage.</string>
 	<string name="success_external_save">Image was successfully saved to external storage.</string>
+	<string name="delete_picture">Delete Picture</string>
+	<string name="save_picture_external">Save Picture to External Storage</string>
 	
 
 	<!-- PreferencesActivity -->

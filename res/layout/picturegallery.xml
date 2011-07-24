@@ -31,20 +31,20 @@
 	        android:id="@+id/button_save_picture_SD" 
 	    	android:layout_width="fill_parent" 
 	    	android:layout_height="40sp" 
-	    	android:text="Save to SD Card"/>
+	    	android:text="@+string/save_picture_external"/>
 	    	
 	    <Button 
 	        android:id="@+id/button_delete_picture" 
 	    	android:layout_width="fill_parent" 
 	    	android:layout_height="40sp" 
-	    	android:text="Delete Picture" 
+	    	android:text="@+string/delete_picture" 
 	    	android:layout_below="@+id/button_save_picture_SD"/>
 	    	
 	    <Button 
 	        android:id="@+id/button_take_another_picture" 
 	    	android:layout_width="fill_parent" 
 	    	android:layout_height="40sp" 
-	    	android:text="Take Another Picture" 
+	    	android:text="@+string/take_picture" 
 	    	android:layout_below="@+id/button_delete_picture"/>	
 
 	</RelativeLayout>
