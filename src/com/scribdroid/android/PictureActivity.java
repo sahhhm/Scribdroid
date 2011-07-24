@@ -84,20 +84,20 @@ public class PictureActivity extends Activity {
             Toast.makeText(getBaseContext(),
                 getResources().getString(R.string.successful_save), Toast.LENGTH_LONG)
                 .show();
-            Log.i(TAG, "Saved Picture");
+            if (D) Log.i(TAG, "Saved Picture");
             finish();
 
           } catch (Exception e) {
             Toast.makeText(getBaseContext(),
                 getResources().getString(R.string.unsuccessful_save), Toast.LENGTH_LONG)
                 .show();
-            Log.e(TAG, e.getMessage());
+            if (D) Log.e(TAG, e.getMessage());
           }
         } else {
           Toast.makeText(getBaseContext(),
               getResources().getString(R.string.unsuccessful_save), Toast.LENGTH_LONG)
               .show();
-          Log.e(TAG, "There does not seem to be an image to save");
+          if (D) Log.e(TAG, "There does not seem to be an image to save");
         }
       }
     });
@@ -129,7 +129,7 @@ public class PictureActivity extends Activity {
 
     protected void onPostExecute(Bitmap bm) {
       if (bm != null) {
-        Log.i(TAG, "Picture Success");
+        if (D) Log.i(TAG, "Picture Success");
 
         // Hide ProgressBar and associated text
         pb.setVisibility(View.INVISIBLE);
@@ -149,7 +149,7 @@ public class PictureActivity extends Activity {
         editTextName.setVisibility(View.VISIBLE);
 
       } else {
-        Log.e(TAG, "Error taking picture...");
+        if (D) Log.e(TAG, "Error taking picture...");
       }
     }
 

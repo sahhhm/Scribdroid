@@ -20,7 +20,7 @@ public class ReadWrite {
       try {
         out = sock.getOutputStream();
       } catch (IOException e) {
-        Log.e(TAG, "Error getting output stream!");
+        if (D) Log.e(TAG, "Error getting output stream!");
       }
 
       // Ensure correctly-sized packet
@@ -33,7 +33,7 @@ public class ReadWrite {
         out.write(b.array());
         if (D) Log.d(TAG, "Wrote: " + ba2s(b.array()));
       } catch (IOException e) {
-        Log.e(TAG, "Error Writing: " + ba2s(b.array()));
+        if (D) Log.e(TAG, "Error Writing: " + ba2s(b.array()));
       }
 
     }
@@ -45,7 +45,7 @@ public class ReadWrite {
       try {
         out = sock.getOutputStream();
       } catch (IOException e) {
-        Log.e(TAG, "Error getting output stream!");
+        if (D) Log.e(TAG, "Error getting output stream!");
       }
 
       // Only write what the code-- no message size specified
@@ -55,7 +55,7 @@ public class ReadWrite {
         out.write(b.array());
         if (D) Log.d(TAG, "Wrote[Fluke]: " + ba2s(b.array()));
       } catch (IOException e) {
-        Log.e(TAG, "Error Writing: " + ba2s(b.array()));
+        if (D) Log.e(TAG, "Error Writing: " + ba2s(b.array()));
       }
     }
   }
@@ -68,7 +68,7 @@ public class ReadWrite {
       try {
         in = sock.getInputStream();
       } catch (IOException e1) {
-        Log.d(TAG, "Error Opening input stream");
+        if (D) Log.d(TAG, "Error Opening input stream");
       }
 
       byte[] fake = new byte[numBytes];
@@ -95,7 +95,7 @@ public class ReadWrite {
         }
         if (D) Log.d(TAG, "Read " + buf.position() + " bytes: " + ba2s(buf.array()));
       } catch (IOException e) {
-        Log.e(TAG, "Error Reading" + e.getMessage());
+        if (D) Log.e(TAG, "Error Reading" + e.getMessage());
       }
     }
     return buf.array();

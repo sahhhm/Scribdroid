@@ -79,12 +79,12 @@ public class ControllerActivity extends Activity {
             mLayout.removeView(c);
             mLayout.addView(s);
             controllerArea.setOnTouchListener(s.getOnTouchListener());
-            Log.i(TAG, "Changed to Simple Controller");
+            if (D) Log.i(TAG, "Changed to Simple Controller");
           } else if (!s.hasWindowFocus() && mode.equals(res.getString(R.string.complex))) {
             mLayout.removeView(s);
             mLayout.addView(c);
             controllerArea.setOnTouchListener(c.getOnTouchListener());
-            Log.i(TAG, "Changed to Complex Controller");
+            if (D) Log.i(TAG, "Changed to Complex Controller");
           }
         }
       }
@@ -97,14 +97,14 @@ public class ControllerActivity extends Activity {
     picButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.d(TAG, "takePic button clicked");
+        if (D) Log.d(TAG, "takePic button clicked");
 
         if (appState.getScribbler().isConnected()) {
           Intent pictureIntent = new Intent(getBaseContext(), PictureActivity.class);
           startActivity(pictureIntent);
         } else {
           MainTabWidget.emphasizeConnectivity();
-          Log.i(TAG, "Cannot Launch PictureActivity-- not connected to robot");
+          if (D) Log.i(TAG, "Cannot Launch PictureActivity-- not connected to robot");
         }
       }
     });

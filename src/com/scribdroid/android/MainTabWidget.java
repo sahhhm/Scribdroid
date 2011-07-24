@@ -172,7 +172,7 @@ public class MainTabWidget extends TabActivity {
             s.beep(349, .03f);
             s.beep(523, .03f);
 
-            Log.i(TAG, "Scribbler Persisted");
+            if (D) Log.i(TAG, "Scribbler Persisted");
 
           } else {
             Toast.makeText(getApplicationContext(), "Error Connecting to " + address,
@@ -181,7 +181,7 @@ public class MainTabWidget extends TabActivity {
 
           }
         } catch (Exception e) {
-          Log.e(TAG, "Connection Failed");
+          if (D) Log.e(TAG, "Connection Failed");
           connectivity.setText(res.getString(R.string.not_connected));
         }
       }

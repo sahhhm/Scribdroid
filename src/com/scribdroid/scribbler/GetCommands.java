@@ -172,7 +172,7 @@ public class GetCommands {
 
     // Read the Message Echo
     temp = ReadWrite._read(s.getSocket(), s.isConnected(), PACKET_LENGTH);
-    Log.d(TAG, "ECHO READ: " + temp.length + " -> " + ba2s(temp));
+    if (D) Log.d(TAG, "ECHO READ: " + temp.length + " -> " + ba2s(temp));
 
     // Read contents of what's desired
     temp = ReadWrite._read(s.getSocket(), s.isConnected(), numBytes);
@@ -194,7 +194,7 @@ public class GetCommands {
         c++;
       }
     } else {
-      Log.e(TAG, "Cannot _get type: " + getType);
+      if (D) Log.e(TAG, "Cannot _get type: " + getType);
       ret = new int[] {};
     }
 

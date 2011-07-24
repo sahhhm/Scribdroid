@@ -106,13 +106,13 @@ public class RobotInfoActivity extends Activity {
       public void run() {
         // Update only of scribbler is connected
         if (appState.getScribbler().isConnected()) {
-          Log.i(TAG, "Populating Values");
+          if (D) Log.i(TAG, "Populating Values");
           MainTabWidget.titleProgressBar.setVisibility(View.VISIBLE);
           updateValues();
           populate();
           MainTabWidget.titleProgressBar.setVisibility(View.INVISIBLE);
         } else {
-          Log.e(TAG, "Disconnected unexpectedly...");
+          if (D) Log.e(TAG, "Disconnected unexpectedly...");
           MainTabWidget.emphasizeConnectivity();
           toggleButton.setChecked(false);
         }

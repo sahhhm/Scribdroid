@@ -174,7 +174,7 @@ public class PictureGalleryActivity extends Activity {
           AlertDialog alert = builder.create();
           alert.show();
         } else {
-          Log.e(TAG, "Nothing selected to delete");
+          if (D) Log.e(TAG, "Nothing selected to delete");
           Toast.makeText(getBaseContext(),
               getResources().getString(R.string.error_deleting), Toast.LENGTH_LONG)
               .show();

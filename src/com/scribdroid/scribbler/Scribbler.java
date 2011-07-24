@@ -55,11 +55,11 @@ public class Scribbler {
       if (D) Log.d(TAG, "Connected");
     } catch (Exception e) {
       setConnected(false);
-      Log.e(TAG, "Error Connecting");
+      if (D) Log.e(TAG, "Error Connecting");
       try {
         sock.close();
       } catch (Exception e2) {
-        Log.e(TAG, "Error closing socket after error connecting");
+        if (D) Log.e(TAG, "Error closing socket after error connecting");
       }
     }
     return ret;
@@ -73,7 +73,7 @@ public class Scribbler {
         if (D) Log.d(TAG, "Socket Closed. Now Disconnected.");
       }
     } catch (IOException e) {
-      Log.e(TAG, "Error closing socket while disconnecting");
+      if (D) Log.e(TAG, "Error closing socket while disconnecting");
     }
   }
 
