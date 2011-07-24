@@ -8,8 +8,16 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="Info Activity">
-		<EditTextPreference android:key="refreshPref"
-			android:title="@string/refresh_rate_title" android:summary="@string/refresh_rate_sum"
-			android:dialogTitle="@string/refresh_rate_title2" android:inputType="number" />
+		<CheckBoxPreference
+			android:key="autoRefreshPref"
+			android:title="@string/autoRefresh_title"
+			android:summary="@string/autoRefresh_summary"
+			android:defaultValue="false"/>
+		<EditTextPreference 
+			android:key="refreshPref"
+			android:title="@string/refresh_rate_title" 
+			android:summary="@string/refresh_rate_sum"
+			android:dialogTitle="@string/refresh_rate_title2" 
+			android:inputType="number" />
 	</PreferenceCategory>
 </PreferenceScreen>

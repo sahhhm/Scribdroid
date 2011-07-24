@@ -76,6 +76,8 @@
 	<string name="refresh_rate_title2">Refresh Rate (ms)</string>
 	<string name="refresh_rate_sum">Enter the number of milliseconds to wait before
 		getting robot information.</string>
+	<string name="autoRefresh_title">Automatically Refresh</string>
+	<string name="autoRefresh_summary">Enable this to have the info screen refresh automatically. NOTE, this is quite a bit more buggy than a manual approach!</string>
 
 	<!-- SharedPreferences -->
 	<string name="refresh_rate_pref">refreshRatePref</string>
