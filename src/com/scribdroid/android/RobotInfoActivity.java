@@ -3,14 +3,19 @@ package com.scribdroid.android;
 import java.util.HashMap;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -34,9 +39,13 @@ public class RobotInfoActivity extends Activity {
   private Resources res;
   private Handler handler;
 
-  private ToggleButton button;
+  private ToggleButton toggleButton;
+  private Button manualButton;
   private Runnable r;
 
+  // Must be instance variable to avoid garbage collection!
+  private OnSharedPreferenceChangeListener preferenceListener;  
+  
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -60,8 +69,39 @@ public class RobotInfoActivity extends Activity {
     irLeft = (TextView) findViewById(R.id.ir_left_value);
     lineLeft = (TextView) findViewById(R.id.line_left_value);
     lineRight = (TextView) findViewById(R.id.line_right_value);
-    button = (ToggleButton) findViewById(R.id.toggleTimer);
+    toggleButton = (ToggleButton) findViewById(R.id.toggleTimer);
+    manualButton = (Button) findViewById(R.id.button_manual_refresh);
 
+    // set the correct control button based on previous preference
+    if (settings.getBoolean(res.getString(R.string.autoRefresh_pref), false)) {
+      toggleButton.setVisibility(View.VISIBLE);
+      manualButton.setVisibility(View.GONE);
+    } else {
+      toggleButton.setVisibility(View.GONE);
+      manualButton.setVisibility(View.VISIBLE);
+    }
+    
+    // Listener that will change the control button as needed
+    preferenceListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+      @Override
+      public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+
+        if (key.equals(res.getString(R.string.autoRefresh_pref))) {
+          boolean auto = settings.getBoolean(res.getString(R.string.autoRefresh_pref), false);
+          
+          if (auto) {
+            toggleButton.setVisibility(View.VISIBLE);
+            manualButton.setVisibility(View.GONE);
+          } else {
+            toggleButton.setVisibility(View.GONE);
+            manualButton.setVisibility(View.VISIBLE);
+          }
+        }
+      }
+    };
+    settings.registerOnSharedPreferenceChangeListener(preferenceListener);
+
+    
     r = new Runnable() {
       @Override
       public void run() {
@@ -75,10 +115,10 @@ public class RobotInfoActivity extends Activity {
         } else {
           Log.e(TAG, "Disconnected unexpectedly...");
           MainTabWidget.emphasizeConnectivity();
-          button.setChecked(false);
+          toggleButton.setChecked(false);
         }
         // Keep polling until user decides to stop or leaves activity
-        if (button.isChecked()) {
+        if (toggleButton.isChecked()) {
           handler.postDelayed(
               this,
               Integer.parseInt(settings.getString(
@@ -88,11 +128,10 @@ public class RobotInfoActivity extends Activity {
       }
     };
 
-    button.setChecked(true);
-    button.setOnClickListener(new OnClickListener() {
+    toggleButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (button.isChecked())
+        if (toggleButton.isChecked())
           handler.postDelayed(
               r,
               Integer.parseInt(settings.getString(
@@ -109,7 +148,7 @@ public class RobotInfoActivity extends Activity {
   @Override
   public void onResume() {
     super.onResume();
-    if (button.isChecked()) {
+    if (toggleButton.isChecked()) {
       handler.postDelayed(r, Integer.parseInt(settings.getString(
           res.getString(R.string.refresh_rate_pref),
           res.getString(R.string.default_refresh_rate))));
@@ -119,14 +158,14 @@ public class RobotInfoActivity extends Activity {
   @Override
   public void onPause() {
     super.onPause();
-    button.setChecked(false);
+    toggleButton.setChecked(false);
     MainTabWidget.titleProgressBar.setVisibility(View.INVISIBLE);
   }
 
   @Override
   public void onStop() {
     super.onStop();
-    button.setChecked(false);
+    toggleButton.setChecked(false);
     MainTabWidget.titleProgressBar.setVisibility(View.INVISIBLE);
   }
 

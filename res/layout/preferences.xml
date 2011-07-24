@@ -18,6 +18,6 @@
 			android:title="@string/refresh_rate_title" 
 			android:summary="@string/refresh_rate_sum"
 			android:dialogTitle="@string/refresh_rate_title2" 
-			android:inputType="number" />
+			android:inputType="number"/>
 	</PreferenceCategory>
 </PreferenceScreen>

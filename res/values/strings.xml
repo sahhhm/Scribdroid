@@ -82,5 +82,6 @@
 	<!-- SharedPreferences -->
 	<string name="refresh_rate_pref">refreshRatePref</string>
 	<string name="default_refresh_rate">1000</string>
+	<string name="autoRefresh_pref">autoRefreshPref</string>
 	<string name="controller_mode_pref">controllerModePref</string>
 </resources>
