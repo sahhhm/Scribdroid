@@ -8,10 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -142,9 +139,13 @@ public class RobotInfoActivity extends Activity {
       }
     });
 
-    handler.postDelayed(r, Integer.parseInt(settings.getString(
-        res.getString(R.string.refresh_rate_pref),
-        res.getString(R.string.default_refresh_rate))));
+    // update information once
+    manualButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        r.run();
+      }
+    });
   }
 
   @Override
