@@ -1,6 +1,5 @@
 package com.scribdroid.android;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import android.app.Activity;
@@ -8,7 +7,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -65,7 +63,6 @@ public class PictureActivity extends Activity {
         buttonCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(Activity.RESULT_CANCELED);
                 finish();
             } 
         });
@@ -82,9 +79,10 @@ public class PictureActivity extends Activity {
                        image.compress(Bitmap.CompressFormat.JPEG, 90, fos);
                        fos.close();
                        
-                       // Let the user know picture saved successfully
+                       // Let the user know picture saved successfully and finish
                        Toast.makeText(getBaseContext(), getResources().getString(R.string.successful_save), Toast.LENGTH_LONG).show();
                        Log.i(TAG, "Saved Picture");
+                       finish();
                        
                    } catch (Exception e) {
                        Toast.makeText(getBaseContext(), getResources().getString(R.string.unsuccessful_save), Toast.LENGTH_LONG).show();

@@ -32,7 +32,6 @@ public class ControllerActivity extends Activity {
     // Must be instance variable to avoid garbage collection!
     private OnSharedPreferenceChangeListener listener;
 
-    private static final int PICTURE_REQUEST = 1;
     private Button picButton;
     
     public static RelativeLayout controllerArea;
@@ -108,7 +107,7 @@ public class ControllerActivity extends Activity {
                 
                 if (appState.getScribbler().isConnected()) {
                     Intent pictureIntent = new Intent(getBaseContext(), PictureActivity.class);
-                    startActivityForResult(pictureIntent, PICTURE_REQUEST);
+                    startActivity(pictureIntent);
                 } else {
                     MainTabWidget.emphasizeConnectivity();
                     Log.i(TAG, "Cannot Launch PictureActivity-- not connected to robot");
@@ -366,20 +365,5 @@ public class ControllerActivity extends Activity {
             };
             return l;
         }
-    }
-    
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-        case PICTURE_REQUEST:
-            // When DeviceListActivity returns with a device to connect
-            if (resultCode == Activity.RESULT_OK) {
-                Log.i(TAG, "PICTURE_REQUEST: ok");
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i(TAG, "PICTURE_REQUEST: cancel");
-            }
-            break;
-        }
-    }    
+    }  
 }
