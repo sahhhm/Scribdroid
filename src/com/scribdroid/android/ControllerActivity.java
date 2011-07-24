@@ -100,7 +100,6 @@ public class ControllerActivity extends Activity {
     
         // register a listener to start PictureActivity when user clicks
         // takepicture button
-        final Intent pictureIntent = new Intent(this, PictureActivity.class);
         picButton = (Button) findViewById(R.id.button_take_picture);
         picButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -108,8 +107,10 @@ public class ControllerActivity extends Activity {
                 Log.d(TAG, "takePic button clicked");
                 
                 if (appState.getScribbler().isConnected()) {
+                    Intent pictureIntent = new Intent(getBaseContext(), PictureActivity.class);
                     startActivityForResult(pictureIntent, PICTURE_REQUEST);
                 } else {
+                    MainTabWidget.emphasizeConnectivity();
                     Log.i(TAG, "Cannot Launch PictureActivity-- not connected to robot");
                 }
             }
