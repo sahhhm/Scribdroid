@@ -130,12 +130,18 @@ public class RobotInfoActivity extends Activity {
     toggleButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (toggleButton.isChecked())
-          handler.postDelayed(
-              r,
-              Integer.parseInt(settings.getString(
-                  res.getString(R.string.refresh_rate_pref),
-                  res.getString(R.string.default_refresh_rate))));
+        if (appState.getScribbler().isConnected()) {
+          if (toggleButton.isChecked())
+            handler.postDelayed(
+                r,
+                Integer.parseInt(settings.getString(
+                    res.getString(R.string.refresh_rate_pref),
+                    res.getString(R.string.default_refresh_rate))));
+        } else {
+          MainTabWidget.emphasizeConnectivity();
+          toggleButton.setChecked(false);
+        }
+            
       }
     });
 
@@ -143,7 +149,10 @@ public class RobotInfoActivity extends Activity {
     manualButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        r.run();
+        if (appState.getScribbler().isConnected()) 
+          r.run(); 
+        else
+          MainTabWidget.emphasizeConnectivity();
       }
     });
   }
