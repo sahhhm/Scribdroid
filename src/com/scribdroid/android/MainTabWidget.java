@@ -82,7 +82,7 @@ public class MainTabWidget extends TabActivity {
                         res.getDrawable(R.drawable.ic_tab_controller))
                 .setContent(intent);
         tabHost.addTab(spec);
-        
+
         // Add Robot Info Activity Group to TabHost
         intent = new Intent().setClass(this, PictureGalleryActivity.class);
         spec = tabHost
@@ -90,7 +90,7 @@ public class MainTabWidget extends TabActivity {
                 .setIndicator("Picture",
                         res.getDrawable(R.drawable.ic_tab_controller))
                 .setContent(intent);
-        tabHost.addTab(spec);        
+        tabHost.addTab(spec);
 
         tabHost.setCurrentTab(0);
 
@@ -211,11 +211,13 @@ public class MainTabWidget extends TabActivity {
             break;
         }
     }
-    
+
     public static void emphasizeConnectivity() {
-        ScaleAnimation s = new ScaleAnimation(0.75f, 1, 0.75f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        ScaleAnimation s = new ScaleAnimation(0.75f, 1, 0.75f, 1,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
         s.setDuration(500);
         connectivity.startAnimation(s);
     }
-    
+
 }

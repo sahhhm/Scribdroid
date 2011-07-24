@@ -33,10 +33,10 @@ public class ControllerActivity extends Activity {
     private OnSharedPreferenceChangeListener listener;
 
     private Button picButton;
-    
+
     public static RelativeLayout controllerArea;
     public static RelativeLayout controllerBottomArea;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +48,11 @@ public class ControllerActivity extends Activity {
         settings = PreferenceManager
                 .getDefaultSharedPreferences(getBaseContext());
         res = getResources();
-        
+
         // Define the layouts which fill the activity
         controllerArea = (RelativeLayout) findViewById(R.id.controller_area);
         controllerBottomArea = (RelativeLayout) findViewById(R.id.controller_bototm_area);
-        
+
         // Enclosures to swap between as user changes preferences
         final Enclosure s = new SimpleEnclosure(controllerArea.getContext());
         final Enclosure c = new ComplexEnclosure(controllerArea.getContext());
@@ -83,20 +83,22 @@ public class ControllerActivity extends Activity {
                             && mode.equals(res.getString(R.string.simple))) {
                         mLayout.removeView(c);
                         mLayout.addView(s);
-                        controllerArea.setOnTouchListener(s.getOnTouchListener());
+                        controllerArea.setOnTouchListener(s
+                                .getOnTouchListener());
                         Log.i(TAG, "Changed to Simple Controller");
                     } else if (!s.hasWindowFocus()
                             && mode.equals(res.getString(R.string.complex))) {
                         mLayout.removeView(s);
                         mLayout.addView(c);
-                        controllerArea.setOnTouchListener(c.getOnTouchListener());
+                        controllerArea.setOnTouchListener(c
+                                .getOnTouchListener());
                         Log.i(TAG, "Changed to Complex Controller");
                     }
                 }
             }
         };
         settings.registerOnSharedPreferenceChangeListener(listener);
-    
+
         // register a listener to start PictureActivity when user clicks
         // takepicture button
         picButton = (Button) findViewById(R.id.button_take_picture);
@@ -104,13 +106,15 @@ public class ControllerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "takePic button clicked");
-                
+
                 if (appState.getScribbler().isConnected()) {
-                    Intent pictureIntent = new Intent(getBaseContext(), PictureActivity.class);
+                    Intent pictureIntent = new Intent(getBaseContext(),
+                            PictureActivity.class);
                     startActivity(pictureIntent);
                 } else {
                     MainTabWidget.emphasizeConnectivity();
-                    Log.i(TAG, "Cannot Launch PictureActivity-- not connected to robot");
+                    Log.i(TAG,
+                            "Cannot Launch PictureActivity-- not connected to robot");
                 }
             }
         });
@@ -130,7 +134,7 @@ public class ControllerActivity extends Activity {
     protected void onStop() {
         super.onStop();
     }
-    
+
     private class ComplexEnclosure extends Enclosure {
         private float threshold;
 
@@ -176,17 +180,17 @@ public class ControllerActivity extends Activity {
             }
             return false;
         }
- 
+
         public OnTouchListener getOnTouchListener() {
             OnTouchListener l = new OnTouchListener() {
-                
+
                 @Override
                 public boolean onTouch(View v, MotionEvent me) {
                     if (!appState.getScribbler().isConnected()) {
                         MainTabWidget.emphasizeConnectivity();
                         return false;
                     }
-                    
+
                     float[] values = new float[] { 0, 0 };
 
                     int action = me.getAction();
@@ -199,8 +203,8 @@ public class ControllerActivity extends Activity {
                         if (appState.getScribbler().isConnected()
                                 && action == MotionEvent.ACTION_DOWN) {
                             if (D)
-                                Log.d(TAG, "ACTION_DOWN: X = " + currentX + "Y = "
-                                        + currentY);
+                                Log.d(TAG, "ACTION_DOWN: X = " + currentX
+                                        + "Y = " + currentY);
 
                             setTouchX(currentX);
                             setTouchY(currentY);
@@ -233,10 +237,9 @@ public class ControllerActivity extends Activity {
                 }
             };
             return l;
-            
-            
+
         }
-        
+
         /**
          * Given a users touch, determine how to move the robot
          * 
@@ -331,7 +334,7 @@ public class ControllerActivity extends Activity {
                         MainTabWidget.emphasizeConnectivity();
                         return false;
                     }
-                    
+
                     int action = me.getAction();
                     float currentX = me.getX();
                     float currentY = me.getY();
@@ -365,5 +368,5 @@ public class ControllerActivity extends Activity {
             };
             return l;
         }
-    }  
+    }
 }

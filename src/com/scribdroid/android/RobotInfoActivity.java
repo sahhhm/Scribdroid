@@ -99,7 +99,7 @@ public class RobotInfoActivity extends Activity {
                             r,
                             Integer.parseInt(settings.getString(
                                     res.getString(R.string.refresh_rate_pref),
-                                    res.getString(R.string.default_refresh_rate))));     
+                                    res.getString(R.string.default_refresh_rate))));
             }
         });
 

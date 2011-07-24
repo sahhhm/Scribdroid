@@ -59,7 +59,10 @@
 	<!-- PictureGalleryActivity -->
 	<string name="successful_deleting">Successfully Deleted Picture From Internal Memory!</string>
 	<string name="error_deleting">Error Deleting Picture!</string>
-	<string name="no_pictures">You currenntly have not taken any pictures!</string>
+	<string name="no_pictures">You currently have not taken any pictures!</string>
+	<string name="error_external_save">There was an error saving the image to external storage.</string>
+	<string name="success_external_save">Image was successfully saved to external storage.</string>
+	
 
 	<!-- PreferencesActivity -->
 	<string name="pref_controller_title">Robot Controller Mode</string>
