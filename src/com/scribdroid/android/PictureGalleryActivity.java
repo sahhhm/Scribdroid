@@ -118,7 +118,7 @@ public class PictureGalleryActivity extends Activity {
     
     @Override
     protected void onResume() {
-        super.onRestart();
+        super.onResume();
         
         if (fileList().length <= 0) {
             // let the user know there is nothing to see yet
