@@ -150,11 +150,6 @@ public class RobotInfoActivity extends Activity {
   @Override
   public void onResume() {
     super.onResume();
-    if (toggleButton.isChecked()) {
-      handler.postDelayed(r, Integer.parseInt(settings.getString(
-          res.getString(R.string.refresh_rate_pref),
-          res.getString(R.string.default_refresh_rate))));
-    }
   }
 
   @Override
