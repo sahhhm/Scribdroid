@@ -5,16 +5,48 @@
     android:layout_height="fill_parent">
     
     <TextView 
-    	android:id="@+id/textView1"
-    	android:layout_width="wrap_content" 
-    	android:text="First Picture Taken: " 
+        android:id="@+id/textView_gallery_header" 
+    	android:layout_width="fill_parent" 
+     	android:layout_height="wrap_content"
+    	android:layout_alignParentTop="true" 
+    	android:text="Top TextView" 
+    	android:layout_centerHorizontal="true"
+    	android:textSize="17sp"/>
+    	
+    <Gallery 
+    	android:id="@+id/gallery_picture" 
     	android:layout_height="wrap_content" 
-    	android:layout_alignParentLeft="true"/>
-    <ImageView 
-    	android:id="@+id/imageView1" 
-    	android:layout_height="wrap_content" 
-    	android:layout_width="wrap_content" 
-    	android:src="@drawable/icon" 
-    	android:layout_below="@+id/textView1" />
+    	android:layout_width="fill_parent" 
+    	android:layout_alignParentLeft="true"
+    	android:layout_below="@+id/textView_gallery_header"/>	
+	
+	<RelativeLayout
+    	android:id="@+id/picturetest_actions"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_centerHorizontal="true"
+    	android:layout_alignParentBottom="true">
+
+	    <Button 
+	        android:id="@+id/button_save_picture_SD" 
+	    	android:layout_width="fill_parent" 
+	    	android:layout_height="40sp" 
+	    	android:text="Save to SD Card"/>
+	    	
+	    <Button 
+	        android:id="@+id/button_delete_picture" 
+	    	android:layout_width="fill_parent" 
+	    	android:layout_height="40sp" 
+	    	android:text="Delete Picture" 
+	    	android:layout_below="@+id/button_save_picture_SD"/>
+	    	
+	    <Button 
+	        android:id="@+id/button_take_another_picture" 
+	    	android:layout_width="fill_parent" 
+	    	android:layout_height="40sp" 
+	    	android:text="Take Another Picture" 
+	    	android:layout_below="@+id/button_delete_picture"/>	
+
+	</RelativeLayout>
     
 </RelativeLayout>

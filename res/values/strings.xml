@@ -56,6 +56,11 @@
 	<string name="successful_save">The picture was successfully saved!</string>
 	<string name="unsuccessful_save">There was an error in saving the picture.</string>
 
+	<!-- PictureGalleryActivity -->
+	<string name="successful_deleting">Successfully Deleted Picture From Internal Memory!</string>
+	<string name="error_deleting">Error Deleting Picture!</string>
+	<string name="no_pictures">You currenntly have not taken any pictures!</string>
+
 	<!-- PreferencesActivity -->
 	<string name="pref_controller_title">Robot Controller Mode</string>
 	<string name="pref_controller_sum">Choose between a simple and complex robot
