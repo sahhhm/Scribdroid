@@ -65,6 +65,7 @@
 	<string name="success_external_save">Image was successfully saved to external storage.</string>
 	<string name="delete_picture">Delete Picture</string>
 	<string name="save_picture_external">Save Picture to External Storage</string>
+	<string name="confirm_delete">Are you sure you want to delete %1$s?</string>
 	
 
 	<!-- PreferencesActivity -->

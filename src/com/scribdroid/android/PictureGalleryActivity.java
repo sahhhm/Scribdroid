@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -147,23 +149,44 @@ public class PictureGalleryActivity extends Activity {
             public void onClick(View v) {
                 // make sure we have something selected before deleting
                 if (selectedName != "") {
-                    Boolean deleted = deleteFile(selectedName);
-                    if (deleted) {
-                        Toast.makeText(
-                                getBaseContext(),
-                                getResources().getString(
-                                        R.string.successful_deleting),
-                                Toast.LENGTH_LONG).show();
-                        adapter.notifyDataSetChanged();
-                        gallery.dispatchSetSelected(true); // needed to update
-                                                           // header
-                    } else {
-                        Toast.makeText(
-                                getBaseContext(),
-                                getResources().getString(
-                                        R.string.error_deleting),
-                                Toast.LENGTH_LONG).show();
-                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PictureGalleryActivity.this);
+                    builder.setMessage(String.format(getResources().getString(R.string.confirm_delete), selectedName))
+                            .setCancelable(false)
+                            .setPositiveButton("Yes",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(
+                                                DialogInterface dialog, int id) {
+                                            // delete only if user confirms
+                                            Boolean deleted = deleteFile(selectedName);
+                                            if (deleted) {
+                                                Toast.makeText(
+                                                        getBaseContext(),
+                                                        getResources().getString(
+                                                                R.string.successful_deleting),
+                                                        Toast.LENGTH_LONG).show();
+                                                adapter.notifyDataSetChanged();
+                                                gallery.dispatchSetSelected(true); // needed to update
+                                                                                   // header
+                                            } else {
+                                                Toast.makeText(
+                                                        getBaseContext(),
+                                                        getResources().getString(
+                                                                R.string.error_deleting),
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton("No",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(
+                                                DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 } else {
                     Log.e(TAG, "Nothing selected to delete");
                     Toast.makeText(getBaseContext(),
