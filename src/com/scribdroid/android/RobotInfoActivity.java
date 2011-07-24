@@ -74,6 +74,7 @@ public class RobotInfoActivity extends Activity {
 
     // set the correct control button based on previous preference
     if (settings.getBoolean(res.getString(R.string.autoRefresh_pref), false)) {
+      toggleButton.setChecked(false);
       toggleButton.setVisibility(View.VISIBLE);
       manualButton.setVisibility(View.GONE);
     } else {
@@ -93,6 +94,7 @@ public class RobotInfoActivity extends Activity {
             toggleButton.setVisibility(View.VISIBLE);
             manualButton.setVisibility(View.GONE);
           } else {
+            toggleButton.setChecked(false);
             toggleButton.setVisibility(View.GONE);
             manualButton.setVisibility(View.VISIBLE);
           }
