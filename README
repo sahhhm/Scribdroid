@@ -1,5 +1,28 @@
-Android App To Interfact with the Scribbler Robot.
+Android application which allows any Bluetooth-enabled Android Device to communicate with a Parallax Scribbler that uses an IPRE Fluke.
 
-(test...)
+Features:
+  -Ability to connect and disconnect from robot
+  -Simple and Complex controller modes to move the robot
+  -Retrieve sensor information from the robot
+  -Ability to take a picture
+  -Ability to save a picture to external storage
 
-Wall-E Icon: http://www.iconarchive.com/show/wall-e-icons-by-artua/wall-e-icon.html
+Application can be found in the marketplace:
+  -https://market.android.com/details?id=com.scribdroid.android
+
+Screenshots can be found in the `screenshots` folder
+
+Requirements:
+  -Android 2.1 or higher w/ Bluetooth Support
+  -Parallax Scribbler
+  -IPRE Fluke
+
+Original information on the Scribbler project can be found: 
+  -wiki.roboteducation.org/Myro_Hardware
+
+Launcher and other icons thanks to the beautiful: 
+  -android-ui-utils.googlecode.com.
+
+Support: 
+  -contact via github
+  -scribdroid@gmail.com
