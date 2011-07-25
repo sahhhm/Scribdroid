@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class ReadWrite {
   private static final String TAG = "ReadWrite";
-  private static final boolean D = true;
+  private static final boolean D = false;
 
   private static final int PACKET_LENGTH = 9;
 

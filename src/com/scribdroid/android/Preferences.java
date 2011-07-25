@@ -14,8 +14,9 @@ import android.os.Bundle;
 
 public class Preferences extends PreferenceActivity {
 
-  private boolean D = true;
   private static final String TAG = "Preferences";
+  private boolean D = false;
+
   private SharedPreferences settings;
   private Editor edit;
   private Resources res;

@@ -24,7 +24,7 @@ import com.scribdroid.scribbler.Scribbler;
 public class MainTabWidget extends TabActivity {
   // Debugging
   private static final String TAG = "MainTabWidget";
-  private static final boolean D = true;
+  private static final boolean D = false;
 
   private Resources res;
   private MyApp appState;

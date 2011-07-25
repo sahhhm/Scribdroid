@@ -19,7 +19,7 @@ import android.widget.ToggleButton;
 public class RobotInfoActivity extends Activity {
   // Debugging
   private static final String TAG = "RobotInfoActivity";
-  private static final boolean D = true;
+  private static final boolean D = false;
 
   private MyApp appState;
 

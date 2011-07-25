@@ -47,7 +47,8 @@ import android.widget.AdapterView.OnItemClickListener;
 public class DeviceListActivity extends Activity {
   // Debugging
   private static final String TAG = "DeviceListActivity";
-  private static final boolean D = true;
+  private static final boolean D = false;
+  
   private TextView rightText;
   private ProgressBar progressBar;
 

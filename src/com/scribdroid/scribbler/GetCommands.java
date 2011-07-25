@@ -5,7 +5,7 @@ import android.util.Log;
 public class GetCommands {
 
   private static final String TAG = "GetCommands";
-  private static final boolean D = true;
+  private static final boolean D = false;
 
   private Scribbler s;
 

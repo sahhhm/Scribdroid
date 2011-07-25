@@ -31,7 +31,7 @@ public class PictureGalleryActivity extends Activity {
 
   // Debugging
   private static final String TAG = "PictureGalleryActivity";
-  private static final boolean D = true;
+  private static final boolean D = false;
 
   private Gallery gallery;
   private ImageAdapter adapter;

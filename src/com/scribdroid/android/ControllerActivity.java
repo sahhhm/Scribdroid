@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 public class ControllerActivity extends Activity {
   // Debugging
   private static final String TAG = "ControllerActivity";
-  private static final boolean D = true;
+  private static final boolean D = false;
 
   private MyApp appState;
   private SharedPreferences settings;

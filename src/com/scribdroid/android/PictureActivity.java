@@ -20,7 +20,7 @@ import android.widget.Toast;
 public class PictureActivity extends Activity {
 
   private final String TAG = "PictureActivity";
-  private final Boolean D = true;
+  private final Boolean D = false;
 
   private ImageView iv;
 
