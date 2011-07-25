@@ -16,7 +16,6 @@
         </activity>
 		<activity android:name="ControllerActivity" android:label="ControllerActivity"/>
 		<activity android:name="DeviceListActivity" android:label="DeviceListActivity"/>
-		<activity android:name="RobotInfoActivityOLD" android:label="RobotInfoActivityOLD"/>
 		<activity android:name="RobotInfoActivity" android:label="RobotInfoActivity"/>
 		<activity android:name="Preferences" android:label="Preferences"/>
 		<activity android:name="PictureActivity" android:label="PictureActivity"/>
