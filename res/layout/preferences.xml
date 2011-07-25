@@ -3,7 +3,7 @@
 	<PreferenceCategory android:title="Robot Controller">
 		<ListPreference android:key="controllerModePref"
 			android:title="@string/pref_controller_title" android:summary="@string/pref_controller_sum"
-			android:defaultValue="Simple Controller" android:entries="@array/controllerType"
+			android:defaultValue="Complex Controller" android:entries="@array/controllerType"
 			android:entryValues="@array/controllerType" />
 	</PreferenceCategory>
 

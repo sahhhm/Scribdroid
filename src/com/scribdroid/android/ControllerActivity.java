@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,6 +29,7 @@ public class ControllerActivity extends Activity {
 
   private MyApp appState;
   private SharedPreferences settings;
+  private Editor edit;
   private Resources res;
 
   // Must be instance variable to avoid garbage collection!
@@ -46,6 +49,7 @@ public class ControllerActivity extends Activity {
 
     appState = (MyApp) getApplicationContext();
     settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    edit = settings.edit();
     res = getResources();
 
     // Define the layouts which fill the activity
@@ -61,9 +65,11 @@ public class ControllerActivity extends Activity {
         res.getString(R.string.complex)).equals(res.getString(R.string.simple))) {
       mLayout.addView(s);
       controllerArea.setOnTouchListener(s.getOnTouchListener());
+      edit.putString(res.getString(R.string.current_controller), res.getString(R.string.simple)).commit();
     } else {
       mLayout.addView(c);
       controllerArea.setOnTouchListener(c.getOnTouchListener());
+      edit.putString(res.getString(R.string.current_controller), res.getString(R.string.complex)).commit();
     }
 
     // Listener that will change controller settings as user changes
@@ -71,18 +77,21 @@ public class ControllerActivity extends Activity {
     listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
       @Override
       public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-
+        
         if (key.equals(res.getString(R.string.controller_mode_pref))) {
+          String current = settings.getString(res.getString(R.string.current_controller), res.getString(R.string.complex));
           String mode = settings.getString(res.getString(R.string.controller_mode_pref),
               res.getString(R.string.complex));
-          if (!c.hasWindowFocus() && mode.equals(res.getString(R.string.simple))) {
+          if (!current.equals(mode) && mode.equals(res.getString(R.string.simple))) {
             mLayout.removeView(c);
             mLayout.addView(s);
             controllerArea.setOnTouchListener(s.getOnTouchListener());
+            edit.putString(res.getString(R.string.current_controller), res.getString(R.string.simple)).commit();
             if (D) Log.i(TAG, "Changed to Simple Controller");
-          } else if (!s.hasWindowFocus() && mode.equals(res.getString(R.string.complex))) {
+          } else if (!current.equals(mode) && mode.equals(res.getString(R.string.complex))) {
             mLayout.removeView(s);
             mLayout.addView(c);
+            edit.putString(res.getString(R.string.current_controller), res.getString(R.string.complex)).commit();
             controllerArea.setOnTouchListener(c.getOnTouchListener());
             if (D) Log.i(TAG, "Changed to Complex Controller");
           }
