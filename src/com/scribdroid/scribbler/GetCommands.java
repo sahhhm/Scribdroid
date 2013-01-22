@@ -56,7 +56,7 @@ public class GetCommands {
 
     // Get the Raw Bytes
     temp = _get(new byte[] { (byte) GET_ALL }, numBytes, "byte");
-    if (temp == null) return null; // make sure no read error occurred
+    if (temp == null) return null;
     
     // IR Values
     values[0] = temp[0];
@@ -87,9 +87,7 @@ public class GetCommands {
 
     // Get both halves of the name
     ba1 = _get(new byte[] { (byte) GET_NAME1 }, retSize, "byte");
-    if (ba1 == null) return null; // make sure no read error occurred
     ba2 = _get(new byte[] { (byte) GET_NAME2 }, retSize, "byte");
-    if (ba2 == null) return null; // make sure no read error occurred
 
     // Combine both halves of the name
     ba = new int[ba1.length + ba2.length];
@@ -129,7 +127,6 @@ public class GetCommands {
       ReadWrite._writeFluke(s.getSocket(), s.isConnected(),
           new byte[] { (byte) obstacleCodes[i] });
       temp = ReadWrite._read(s.getSocket(), s.isConnected(), retSize);
-      if (temp == null) return null; // make sure no read error occurred
       obstacleValues[i] = temp[0] << 8 & 0xFF | temp[1] & 0xFF;
     }
 
@@ -183,12 +180,10 @@ public class GetCommands {
     
     // Read the Message Echo
     temp = ReadWrite._read(s.getSocket(), s.isConnected(), PACKET_LENGTH);
-    if (temp == null) return null; // make sure no read error occurred
     if (D) Log.d(TAG, "ECHO READ: " + temp.length + " -> " + ba2s(temp));
 
     // Read contents of what's desired
     temp = ReadWrite._read(s.getSocket(), s.isConnected(), numBytes);
-    if (temp == null) return null; // make sure no read error occurred
     
     // Convert the received bytes if needed
     if (getType.toLowerCase().equals("byte")) {
