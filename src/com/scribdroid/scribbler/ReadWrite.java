@@ -3,6 +3,7 @@ package com.scribdroid.scribbler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 
 import android.bluetooth.BluetoothSocket;
@@ -10,10 +11,10 @@ import android.util.Log;
 
 public class ReadWrite {
   private static final String TAG = "ReadWrite";
-  private static final boolean D = false;
+  private static final boolean D = true;
 
   private static final int PACKET_LENGTH = 9;
-
+  
   public static void _write(BluetoothSocket sock, boolean connected, byte[] values) {
     if (connected) {
       OutputStream out = null;
@@ -77,20 +78,21 @@ public class ReadWrite {
 
       byte[] buffer = new byte[numBytes];
       int read = 0;
+
       try {
         while (buf.hasRemaining()) {
           read = in.read(buffer);
-
-          /* TO-DO: clean up repetitive for loop */
-          /*
-           * if (read - buf.remaining() < 0) { for (int i = 0; i < read -
-           * buf.remaining(); i++) { int b = buffer[i] & 0xff; buf.put((byte)
-           * b); } Log.d(TAG, "in BREAK"); break; }
-           */
-
+          
           for (int i = 0; i < read; i++) {
             int b = buffer[i] & 0xff;
-            buf.put((byte) b);
+            try {
+              buf.put((byte) b);
+            } catch (BufferOverflowException be) {
+              // Fix bug where robot sends too much information back
+              //if (D) Log.e(TAG, be.getMessage().toString());
+              if (D) Log.i(TAG, "Trying to gracefully disconnect rather than crash");
+              return null;
+            }
           }
         }
         if (D) Log.d(TAG, "Read " + buf.position() + " bytes: " + ba2s(buf.array()));

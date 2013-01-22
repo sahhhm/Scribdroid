@@ -13,7 +13,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;

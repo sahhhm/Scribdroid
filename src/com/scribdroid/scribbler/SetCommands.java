@@ -28,6 +28,13 @@ public class SetCommands {
 
     ReadWrite._write(s.getSocket(), s.isConnected(), values);
 
+    try {
+      Thread.sleep(100);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
     ba = ReadWrite._read(s.getSocket(), s.isConnected(), PACKET_LENGTH);
 
     ba = ReadWrite._read(s.getSocket(), s.isConnected(), SENSOR_PACKET_SIZE);
