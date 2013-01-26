@@ -172,7 +172,7 @@ public class GetCommands {
     ReadWrite._write(s.getSocket(), s.isConnected(), ba);
     
     try {
-      Thread.sleep(100);
+      Thread.sleep(200);
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -180,6 +180,7 @@ public class GetCommands {
     
     // Read the Message Echo
     temp = ReadWrite._read(s.getSocket(), s.isConnected(), PACKET_LENGTH);
+    if (temp == null) Log.d(TAG,"TEMP IS NULL");
     if (D) Log.d(TAG, "ECHO READ: " + temp.length + " -> " + ba2s(temp));
 
     // Read contents of what's desired
