@@ -16,7 +16,7 @@ import android.util.Log;
 public class Scribbler {
   // Debugging
   private static final String TAG = "Scribbler";
-  private static final boolean D = true;
+  private static final boolean D = false;
 
   private String macAddress;
   private boolean connected;
